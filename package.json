@@ -1,0 +1,42 @@
+{
+  "name": "@handbook/babel-plugin",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "author": "",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prettier": "prettier --write \"*.{js,jsx,mjs,ts,tsx}\"",
+    "lint": "eslint \"*.{js,jsx,mjs,ts,tsx}\""
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,mjs,ts,tsx}": [
+      "prettier --write",
+      "eslint"
+    ]
+  },
+  "prettier": "@lunit/prettier-config",
+  "eslintConfig": {
+    "extends": [
+      "@lunit",
+      "prettier"
+    ]
+  },
+  "devDependencies": {
+    "@lunit/eslint-config": "^0.4.0",
+    "@lunit/prettier-config": "^0.1.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.0.8",
+    "prettier": "^1.19.1"
+  }
+}
