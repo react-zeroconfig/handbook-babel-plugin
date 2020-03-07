@@ -31,11 +31,33 @@ function getExtension(loc: string, ...extensions: string[]): string | undefined 
   return extensions.find(ext => existsSync(loc + ext));
 }
 
+function getAbsoluteFileLocation(importName: string, opts: Opts): string | undefined {
+  if (/^\./.test(importName)) {
+    return join(dirname(opts.filename), importName);
+  }
+
+  const dir: string = dirname(importName);
+
+  // /src/*
+  if (existsSync(join(opts.cwd, 'src', dir))) {
+    return join(opts.cwd, 'src', importName);
+  }
+  // /src/_packages/*
+  else if (existsSync(join(opts.cwd, 'src/_packages', dir))) {
+    return join(opts.cwd, 'src/_packages', importName);
+  } else {
+    return undefined;
+  }
+}
+
 export function transformPageCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts) {
   if (path.node.arguments.length > 1 || !t.isStringLiteral(path.node.arguments[0])) return;
 
   const importName: string = path.node.arguments[0].value;
-  const absoulteFileLocation: string = join(dirname(opts.filename), path.node.arguments[0].value);
+  const absoulteFileLocation: string | undefined = getAbsoluteFileLocation(importName, opts);
+
+  if (!absoulteFileLocation) return;
+
   const ext: string | undefined = getExtension(absoulteFileLocation, '.mdx');
 
   if (!ext) return;
@@ -55,7 +77,10 @@ export function transformPreviewCall(t: typeof types, path: NodePath<types.CallE
   if (path.node.arguments.length > 1 || !t.isStringLiteral(path.node.arguments[0])) return;
 
   const importName: string = path.node.arguments[0].value;
-  const absoulteFileLocation: string = join(dirname(opts.filename), path.node.arguments[0].value);
+  const absoulteFileLocation: string | undefined = getAbsoluteFileLocation(importName, opts);
+
+  if (!absoulteFileLocation) return;
+
   const ext: string | undefined = getExtension(absoulteFileLocation, '.tsx', '.jsx', '.js', '.ts', '.mjs');
 
   if (!ext) return;

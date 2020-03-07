@@ -1,6 +1,6 @@
 {
   "name": "@handbook/babel-plugin",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Babel plugin for handbook",
   "main": "lib/plugin.js",
   "typings": "lib/plugin.d.ts",
