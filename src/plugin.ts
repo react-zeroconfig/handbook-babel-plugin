@@ -3,7 +3,9 @@ import * as types from '@babel/types';
 import { existsSync } from 'fs';
 import { dirname, join, relative } from 'path';
 
-const CORE = '@handbook/core';
+const SOURCE = '@handbook/source';
+const PAGE = 'page';
+const EXAMPLE = 'example';
 
 interface Babel {
   types: typeof types;
@@ -37,6 +39,8 @@ function getAbsoluteFileLocation(importName: string, opts: Opts): string | undef
   }
 
   const dir: string = dirname(importName);
+
+  // TODO plugin config
 
   // /src/*
   if (existsSync(join(opts.cwd, 'src', dir))) {
@@ -104,7 +108,7 @@ export default function({ types: t }: Babel): BabelPlugin {
   let opts: Opts | null = null;
   let handbook: string | null = null;
   let page: string | null = null;
-  let preview: string | null = null;
+  let example: string | null = null;
 
   return {
     visitor: {
@@ -112,11 +116,11 @@ export default function({ types: t }: Babel): BabelPlugin {
         opts = path.hub.file.opts;
         handbook = null;
         page = null;
-        preview = null;
+        example = null;
       },
 
       ImportDeclaration(path: NodePath<types.ImportDeclaration>) {
-        if (path.node.source.value !== CORE) return;
+        if (path.node.source.value !== SOURCE) return;
 
         for (const specifier of path.node.specifiers) {
           if (t.isImportNamespaceSpecifier(specifier)) {
@@ -125,11 +129,11 @@ export default function({ types: t }: Babel): BabelPlugin {
             handbook = specifier.local.name;
           } else if (t.isImportSpecifier(specifier)) {
             switch (specifier.imported.name) {
-              case 'page':
+              case PAGE:
                 page = specifier.local.name;
                 break;
-              case 'preview':
-                preview = specifier.local.name;
+              case EXAMPLE:
+                example = specifier.local.name;
                 break;
             }
           }
@@ -140,14 +144,14 @@ export default function({ types: t }: Babel): BabelPlugin {
 
         if (page && t.isIdentifier(path.node.callee, { name: page })) {
           transformPageCall(t, path, opts);
-        } else if (preview && t.isIdentifier(path.node.callee, { name: preview })) {
+        } else if (example && t.isIdentifier(path.node.callee, { name: example })) {
           transformPreviewCall(t, path, opts);
         } else if (
           handbook &&
           'object' in path.node.callee &&
           'property' in path.node.callee &&
           t.isIdentifier(path.node.callee.object, { name: handbook }) &&
-          t.isIdentifier(path.node.callee.property, { name: 'page' })
+          t.isIdentifier(path.node.callee.property, { name: PAGE })
         ) {
           transformPageCall(t, path, opts);
         } else if (
@@ -155,7 +159,7 @@ export default function({ types: t }: Babel): BabelPlugin {
           'object' in path.node.callee &&
           'property' in path.node.callee &&
           t.isIdentifier(path.node.callee.object, { name: handbook }) &&
-          t.isIdentifier(path.node.callee.property, { name: 'preview' })
+          t.isIdentifier(path.node.callee.property, { name: EXAMPLE })
         ) {
           transformPreviewCall(t, path, opts);
         }
