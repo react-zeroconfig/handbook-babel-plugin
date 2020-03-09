@@ -3,9 +3,13 @@ import * as types from '@babel/types';
 import { existsSync } from 'fs';
 import { dirname, join, relative } from 'path';
 
-const SOURCE = '@handbook/source';
-const PAGE = 'page';
-const EXAMPLE = 'example';
+const PACKAGE_NAME = '@handbook/source' as const;
+const NAMESPACE = 'namespace' as const;
+enum CallNames {
+  PAGE = 'page',
+  COMPONENT = 'component',
+  SOURCE = 'source',
+}
 
 interface Babel {
   types: typeof types;
@@ -77,7 +81,7 @@ export function transformPageCall(t: typeof types, path: NodePath<types.CallExpr
   );
 }
 
-export function transformPreviewCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts) {
+export function transformComponentCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts) {
   if (path.node.arguments.length > 1 || !t.isStringLiteral(path.node.arguments[0])) return;
 
   const importName: string = path.node.arguments[0].value;
@@ -104,36 +108,57 @@ export function transformPreviewCall(t: typeof types, path: NodePath<types.CallE
   );
 }
 
+export function transformSourceCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts) {
+  if (path.node.arguments.length > 1 || !t.isStringLiteral(path.node.arguments[0])) return;
+
+  const importName: string = path.node.arguments[0].value;
+  const absoulteFileLocation: string | undefined = getAbsoluteFileLocation(importName, opts);
+
+  if (!absoulteFileLocation) return;
+
+  const ext: string | undefined = getExtension(absoulteFileLocation, '.tsx', '.jsx', '.js', '.ts', '.mjs');
+
+  if (!ext) return;
+
+  path.node.arguments.push(
+    t.objectExpression([
+      t.objectProperty(
+        t.identifier('source'),
+        t.callExpression(t.identifier('require'), [t.stringLiteral(`!!raw-loader!${importName}`)]),
+      ),
+      t.objectProperty(t.identifier('filename'), t.stringLiteral(relative(opts.cwd, absoulteFileLocation) + ext)),
+    ]),
+  );
+}
+
 export default function({ types: t }: Babel): BabelPlugin {
   let opts: Opts | null = null;
-  let handbook: string | null = null;
-  let page: string | null = null;
-  let example: string | null = null;
+  const localNames: Map<typeof NAMESPACE | CallNames, string> = new Map();
 
   return {
     visitor: {
       Program(path: NodePath<types.Program>) {
         opts = path.hub.file.opts;
-        handbook = null;
-        page = null;
-        example = null;
+        localNames.clear();
       },
 
       ImportDeclaration(path: NodePath<types.ImportDeclaration>) {
-        if (path.node.source.value !== SOURCE) return;
+        if (path.node.source.value !== PACKAGE_NAME) return;
 
         for (const specifier of path.node.specifiers) {
-          if (t.isImportNamespaceSpecifier(specifier)) {
-            handbook = specifier.local.name;
-          } else if (t.isImportDefaultSpecifier(specifier)) {
-            handbook = specifier.local.name;
-          } else if (t.isImportSpecifier(specifier)) {
+          // import * as ns from '@handbook/source'
+          // import ns from '@handbook/source'
+          if (t.isImportNamespaceSpecifier(specifier) || t.isImportDefaultSpecifier(specifier)) {
+            localNames.set(NAMESPACE, specifier.local.name);
+          }
+          // import { example } from '@handbook/source'
+          // import { example as another } from '@handbook/source'
+          else if (t.isImportSpecifier(specifier)) {
             switch (specifier.imported.name) {
-              case PAGE:
-                page = specifier.local.name;
-                break;
-              case EXAMPLE:
-                example = specifier.local.name;
+              case CallNames.PAGE:
+              case CallNames.COMPONENT:
+              case CallNames.SOURCE:
+                localNames.set(specifier.imported.name, specifier.local.name);
                 break;
             }
           }
@@ -142,26 +167,27 @@ export default function({ types: t }: Babel): BabelPlugin {
       CallExpression(path: NodePath<types.CallExpression>) {
         if (!opts) return;
 
-        if (page && t.isIdentifier(path.node.callee, { name: page })) {
+        function hasCall(path: NodePath<types.CallExpression>, callName: CallNames): boolean {
+          return (
+            // import { component } from '@handbook/source'
+            // import { component as another } from '@handbook/source'
+            (localNames.has(callName) && t.isIdentifier(path.node.callee, { name: localNames.get(callName) })) ||
+            // import * as ns from '@handbook/source'
+            // import ns from '@handbook/source'
+            (localNames.has(NAMESPACE) &&
+              'object' in path.node.callee &&
+              'property' in path.node.callee &&
+              t.isIdentifier(path.node.callee.object, { name: localNames.get(NAMESPACE) }) &&
+              t.isIdentifier(path.node.callee.property, { name: callName }))
+          );
+        }
+
+        if (hasCall(path, CallNames.PAGE)) {
           transformPageCall(t, path, opts);
-        } else if (example && t.isIdentifier(path.node.callee, { name: example })) {
-          transformPreviewCall(t, path, opts);
-        } else if (
-          handbook &&
-          'object' in path.node.callee &&
-          'property' in path.node.callee &&
-          t.isIdentifier(path.node.callee.object, { name: handbook }) &&
-          t.isIdentifier(path.node.callee.property, { name: PAGE })
-        ) {
-          transformPageCall(t, path, opts);
-        } else if (
-          handbook &&
-          'object' in path.node.callee &&
-          'property' in path.node.callee &&
-          t.isIdentifier(path.node.callee.object, { name: handbook }) &&
-          t.isIdentifier(path.node.callee.property, { name: EXAMPLE })
-        ) {
-          transformPreviewCall(t, path, opts);
+        } else if (hasCall(path, CallNames.COMPONENT)) {
+          transformComponentCall(t, path, opts);
+        } else if (hasCall(path, CallNames.SOURCE)) {
+          transformSourceCall(t, path, opts);
         }
       },
     },

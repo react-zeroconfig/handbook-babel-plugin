@@ -19,6 +19,7 @@ interface Opts {
     filename: string;
 }
 export declare function transformPageCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts): void;
-export declare function transformPreviewCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts): void;
+export declare function transformComponentCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts): void;
+export declare function transformSourceCall(t: typeof types, path: NodePath<types.CallExpression>, opts: Opts): void;
 export default function ({ types: t }: Babel): BabelPlugin;
 export {};
