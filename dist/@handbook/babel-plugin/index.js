@@ -15,7 +15,7 @@ var CallNames;
 function getExtension(loc, ...extensions) {
     if (process.env.JEST_WORKER_ID)
         return extensions[0];
-    return extensions.find(ext => fs_1.existsSync(loc + ext));
+    return extensions.find((ext) => fs_1.existsSync(loc + ext));
 }
 function getAbsoluteFileLocation(importName, opts) {
     if (/^\./.test(importName)) {

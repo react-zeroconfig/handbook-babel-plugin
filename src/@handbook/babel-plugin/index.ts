@@ -36,7 +36,7 @@ interface Opts {
 
 function getExtension(loc: string, ...extensions: string[]): string | undefined {
   if (process.env.JEST_WORKER_ID) return extensions[0];
-  return extensions.find(ext => existsSync(loc + ext));
+  return extensions.find((ext) => existsSync(loc + ext));
 }
 
 function getAbsoluteFileLocation(importName: string, opts: Opts): string | undefined {
@@ -133,7 +133,7 @@ export function transformSourceCall(t: typeof types, path: NodePath<types.CallEx
   );
 }
 
-export default function({ types: t }: Babel): BabelPlugin {
+export default function ({ types: t }: Babel): BabelPlugin {
   let opts: Opts | null = null;
   const localNames: Map<typeof NAMESPACE | CallNames, string> = new Map();
 
