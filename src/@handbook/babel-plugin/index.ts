@@ -3,7 +3,9 @@ import * as types from '@babel/types';
 import { existsSync } from 'fs';
 import { dirname, join, relative } from 'path';
 
+//eslint-disable-next-line @typescript-eslint/typedef
 const PACKAGE_NAME = '@handbook/source' as const;
+//eslint-disable-next-line @typescript-eslint/typedef
 const NAMESPACE = 'namespace' as const;
 enum CallNames {
   PAGE = 'page',

@@ -1,36 +1,13 @@
 {
-  "name": "@handbook/babel-plugin",
-  "version": "0.6.0",
-  "description": "Babel plugin for handbook",
-  "main": "lib/plugin.js",
-  "typings": "lib/plugin.d.ts",
-  "author": "Seoyeon Lee",
-  "license": "MIT",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/react-zeroconfig/handbook-babel-plugin.git"
-  },
-  "bugs": {
-    "url": "https://github.com/react-zeroconfig/handbook-babel-plugin/issues"
-  },
-  "homepage": "https://github.com/react-zeroconfig/handbook-babel-plugin",
-  "engines": {
-    "node": ">=10"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
+  "private": true,
   "scripts": {
     "docs": "markdown-source-import \"{,!(node_modules)/**/}*.md\"",
-    "clean": "rimraf lib",
-    "build": "npm run clean && tsc --project tsconfig.build.json",
-    "watch": "npm run clean && tsc --watch --project tsconfig.build.json",
+    "build": "trism build",
+    "publish": "npm test && trism build && trism publish",
     "test": "jest --colors",
     "coverage": "jest --colors --coverage",
-    "prettier": "prettier --write \"src/**/*.{js,jsx,mjs,ts,tsx}\"",
-    "lint": "eslint \"src/**/*.{js,jsx,mjs,ts,tsx}\"",
-    "prepublishOnly": "npm run test && npm run lint && npm run build",
-    "pack": "npm run prepublishOnly && npm pack"
+    "format": "prettier --write \"src/**/*.{js,jsx,mjs,ts,tsx}\"",
+    "lint": "eslint \"src/**/*.{js,jsx,mjs,ts,tsx}\""
   },
   "husky": {
     "hooks": {
@@ -44,19 +21,9 @@
       "jest --colors --findRelatedTests"
     ]
   },
-  "prettier": "@lunit/prettier-config",
-  "eslintConfig": {
-    "extends": [
-      "@lunit/eslint-config/without-react",
-      "prettier",
-      "prettier/@typescript-eslint"
-    ]
-  },
-  "dependencies": {
-    "@babel/traverse": "^7.8.6",
-    "@babel/types": "^7.8.7"
-  },
   "devDependencies": {
+    "@babel/traverse": "^7.8.6",
+    "@babel/types": "^7.8.7",
     "@babel/core": "^7.8.7",
     "@babel/plugin-syntax-jsx": "^7.8.3",
     "@lunit/eslint-config": "^0.4.0",
@@ -73,6 +40,7 @@
     "jest": "^25.1.0",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
+    "trism": "^0.4.0",
     "ts-jest": "^25.2.1",
     "typescript": "^3.8.3"
   }

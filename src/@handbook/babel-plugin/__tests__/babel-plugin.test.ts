@@ -1,7 +1,7 @@
 import { BabelFileResult, transform as babelTransform } from '@babel/core';
 import path from 'path';
 import prettier from 'prettier';
-import plugin from '../plugin';
+import plugin from '../';
 
 const cwd: string = path.join(__dirname, '../../');
 const filename: string = 'src/dir/test.tsx';
@@ -19,13 +19,13 @@ function transform(code: string): string {
   });
 
   if (!res || !res.code) {
-                           throw new Error('plugin failed!');
-                         }
+    throw new Error('plugin failed!');
+  }
 
   return res.code;
 }
 
-describe('plugin', () => {
+describe('@handbook/babel-plugin', () => {
   describe('error-cases', () => {
     test('2020-03-09', () => {
       expect(
@@ -83,7 +83,7 @@ describe('plugin', () => {
     test('should succeed in transform', () => {
       const page: string = './pages/Page1';
       const component: string = './samples/Sample';
-      const source: string = './samples/Sample';
+      //const source: string = './samples/Sample';
 
       expect(
         format(
