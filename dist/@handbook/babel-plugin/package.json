@@ -1,0 +1,19 @@
+{
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:handbookjs/packages",
+  "bugs": "https://github.com/handbookjs/packages/issues",
+  "homepage": "https://github.com/handbookjs/packages",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "name": "@handbook/babel-plugin",
+  "version": "0.7.0-alpha.1",
+  "dependencies": {
+    "@babel/traverse": "^7.9.0",
+    "@babel/types": "^7.9.0"
+  }
+}

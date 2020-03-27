@@ -2,7 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = require("path");
+//eslint-disable-next-line @typescript-eslint/typedef
 const PACKAGE_NAME = '@handbook/source';
+//eslint-disable-next-line @typescript-eslint/typedef
 const NAMESPACE = 'namespace';
 var CallNames;
 (function (CallNames) {
@@ -13,7 +15,7 @@ var CallNames;
 function getExtension(loc, ...extensions) {
     if (process.env.JEST_WORKER_ID)
         return extensions[0];
-    return extensions.find(ext => fs_1.existsSync(loc + ext));
+    return extensions.find((ext) => fs_1.existsSync(loc + ext));
 }
 function getAbsoluteFileLocation(importName, opts) {
     if (/^\./.test(importName)) {
@@ -143,4 +145,4 @@ function default_1({ types: t }) {
     };
 }
 exports.default = default_1;
-//# sourceMappingURL=plugin.js.map
+//# sourceMappingURL=index.js.map
