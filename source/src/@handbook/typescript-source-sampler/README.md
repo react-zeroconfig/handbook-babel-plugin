@@ -1,5 +1,11 @@
 # Handbook.js
 
+[![NPM](https://img.shields.io/npm/v/@handbook/babel-plugin.svg)](https://www.npmjs.com/package/@handbook/babel-plugin)
+[![NPM](https://img.shields.io/npm/v/@handbook/source.svg)](https://www.npmjs.com/package/@handbook/source)
+[![NPM](https://img.shields.io/npm/v/@handbook/typescript-source-sampler.svg)](https://www.npmjs.com/package/@handbook/typescript-source-sampler)
+[![TEST](https://github.com/rocket-hangar/handbook/workflows/Test/badge.svg)](https://github.com/rocket-hangar/handbook/actions?query=workflow%3ATest)
+[![codecov](https://codecov.io/gh/rocket-hangar/handbook/branch/master/graph/badge.svg)](https://codecov.io/gh/rocket-hangar/handbook)
+
 ## `@handbook/babel-plugin`
 
 Babel plugin will transform your source codes.
