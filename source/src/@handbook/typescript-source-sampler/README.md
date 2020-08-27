@@ -6,14 +6,9 @@ Babel plugin will transform your source codes.
 
 ```js
 module.exports = {
+  // your babel config
   presets: [
-    [
-      require.resolve('@rocket-scripts/react-preset/babelPreset'),
-      {
-        modules: false,
-        targets: getBrowserslistQuery({ cwd: process.cwd() }),
-      },
-    ],
+    require.resolve('@rocket-scripts/react-preset/babelPreset'),
   ],
   plugins: [
     // TODO set transform plugin
