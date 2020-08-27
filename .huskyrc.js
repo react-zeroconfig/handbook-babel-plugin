@@ -7,7 +7,7 @@ module.exports = {
     'pre-commit': [
       `markdown-source-import "{,!(node_modules)/**/}*.md" --git-add`,
       `lint-staged`,
-      //...precommit(`source`),
+      ...precommit(`source`),
     ].join(' && '),
   },
 };
