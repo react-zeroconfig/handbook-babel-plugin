@@ -87,7 +87,7 @@ describe('@handbook/babel-plugin', () => {
       const res: BabelFileResult | null = babelTransform(format(code), {
         babelrc: false,
         cwd: process.cwd(),
-        filename: path.join(process.cwd(), 'src', filename),
+        filename: path.join(process.cwd(), 'src', filename).replace(/\\/g, '/'),
         plugins: [plugin, '@babel/plugin-syntax-jsx'],
       });
 
@@ -128,12 +128,12 @@ describe('@handbook/babel-plugin', () => {
       source({
         module: require('${module}'),
         source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module)}.tsx',
+        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
       });
       source({
         module: () => import('${module}'),
         source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module)}.tsx',
+        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
       });
     `;
 
@@ -187,12 +187,12 @@ describe('@handbook/babel-plugin', () => {
                   Title1: source({
                     module: require('${module1}'),
                     source: require('!!raw-loader!${module1}').default,
-                    filename: '${path.join(path.dirname(filename), module1)}.tsx',
+                    filename: '${path.join(path.dirname(filename), module1).replace(/\\/g, '/')}.tsx',
                   }),
                   Title2: source({
                     module: () => import('${module2}'),
                     source: require('!!raw-loader!${module2}').default,
-                    filename: '${path.join(path.dirname(filename), module2)}.tsx',
+                    filename: '${path.join(path.dirname(filename), module2).replace(/\\/g, '/')}.tsx',
                   }),
                 }
               }}
@@ -201,23 +201,23 @@ describe('@handbook/babel-plugin', () => {
             <Preview source={source({
               module: require('${module1}'),
               source: require('!!raw-loader!${module1}').default,
-              filename: '${path.join(path.dirname(filename), module1)}.tsx',
+              filename: '${path.join(path.dirname(filename), module1).replace(/\\/g, '/')}.tsx',
             })}/>
             <Preview source={source({
               module: () => import('${module2}'),
               source: require('!!raw-loader!${module2}').default,
-              filename: '${path.join(path.dirname(filename), module2)}.tsx',
+              filename: '${path.join(path.dirname(filename), module2).replace(/\\/g, '/')}.tsx',
             })}/>
             
             <CodeBlock source={source({
               module: require('${module1}'),
               source: require('!!raw-loader!${module1}').default,
-              filename: '${path.join(path.dirname(filename), module1)}.tsx',
+              filename: '${path.join(path.dirname(filename), module1).replace(/\\/g, '/')}.tsx',
             })}/>
             <CodeBlock source={source({
               module: () => import('${module2}'),
               source: require('!!raw-loader!${module2}').default,
-              filename: '${path.join(path.dirname(filename), module2)}.tsx',
+              filename: '${path.join(path.dirname(filename), module2).replace(/\\/g, '/')}.tsx',
             })}/>
           </div>
         )
@@ -245,12 +245,12 @@ describe('@handbook/babel-plugin', () => {
       ns.source({
         module: require('${module}'),
         source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module)}.tsx',
+        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
       });
       ns.source({
         module: () => import('${module}'),
         source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module)}.tsx',
+        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
       });
     `;
 
@@ -275,12 +275,12 @@ describe('@handbook/babel-plugin', () => {
       ns.source({
         module: require('${module}'),
         source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module)}.tsx',
+        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
       });
       ns.source({
         module: () => import('${module}'),
         source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module)}.tsx',
+        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
       });
     `;
 
