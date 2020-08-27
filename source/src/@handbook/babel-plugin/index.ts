@@ -136,7 +136,7 @@ export function transformSourceCallExpression(
     ),
     t.objectProperty(
       t.identifier('filename'),
-      t.stringLiteral(nodePath.relative(sourceRoot, absoulteFileLocation) + ext),
+      t.stringLiteral(nodePath.relative(sourceRoot, absoulteFileLocation).replace(/\\/g, '/') + ext),
     ),
   ]);
 }
