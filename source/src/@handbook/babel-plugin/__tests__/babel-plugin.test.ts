@@ -118,24 +118,26 @@ describe('@handbook/babel-plugin', () => {
       const module = './samples/Sample';
 
       const source = `
-      import { source } from '@handbook/source';
-      source(require('${module}'));
-      source(() => import('${module}'));
-    `;
+        import { source } from '@handbook/source';
+        source(require('${module}'));
+        source(() => import('${module}'));
+      `;
+
+      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
 
       const output = `
-      import { source } from '@handbook/source';
-      source({
-        module: require('${module}'),
-        source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
-      });
-      source({
-        module: () => import('${module}'),
-        source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
-      });
-    `;
+        import { source } from '@handbook/source';
+        source({
+          module: require('${module}'),
+          source: require('!!raw-loader!${module}').default,
+          filename: '${moduleFilename}.tsx',
+        });
+        source({
+          module: () => import('${module}'),
+          source: require('!!raw-loader!${module}').default,
+          filename: '${moduleFilename}.tsx',
+        });
+      `;
 
       // Assert
       expect(format(transform(source))).toBe(format(output));
@@ -149,80 +151,83 @@ describe('@handbook/babel-plugin', () => {
       const module2 = './samples/Sample2';
 
       const source = `
-      import { source } from '@handbook/source';
-      import { Handbook, Preview, CodeBlock } from '@handbook/components';
-      
-      function App() {
-        return (
-          <div>
-            <Handbook>
-              {{
-                index: {
-                  Title1: source(require('${module1}')),
-                  Title2: source(() => import('${module2}')),
-                }
-              }}
-            </Handbook>
-            
-            <Preview source={source(require('${module1}'))}/>
-            <Preview source={source(() => import('${module2}'))}/>
-            
-            <CodeBlock source={source(require('${module1}'))}/>
-            <CodeBlock source={source(() => import('${module2}'))}/>
-          </div>
-        )
-      }
-    `;
+        import { source } from '@handbook/source';
+        import { Handbook, Preview, CodeBlock } from '@handbook/components';
+        
+        function App() {
+          return (
+            <div>
+              <Handbook>
+                {{
+                  index: {
+                    Title1: source(require('${module1}')),
+                    Title2: source(() => import('${module2}')),
+                  }
+                }}
+              </Handbook>
+              
+              <Preview source={source(require('${module1}'))}/>
+              <Preview source={source(() => import('${module2}'))}/>
+              
+              <CodeBlock source={source(require('${module1}'))}/>
+              <CodeBlock source={source(() => import('${module2}'))}/>
+            </div>
+          )
+        }
+      `;
+
+      const moduleFilename1 = path.join(path.dirname(filename), module1).replace(/\\/g, '/');
+      const moduleFilename2 = path.join(path.dirname(filename), module2).replace(/\\/g, '/');
 
       const output = `
-      import { source } from '@handbook/source';
-      import { Handbook, Preview, CodeBlock } from '@handbook/components';
-      
-      function App() {
-        return (
-          <div>
-            <Handbook>
-              {{
-                index: {
-                  Title1: source({
-                    module: require('${module1}'),
-                    source: require('!!raw-loader!${module1}').default,
-                    filename: '${path.join(path.dirname(filename), module1).replace(/\\/g, '/')}.tsx',
-                  }),
-                  Title2: source({
-                    module: () => import('${module2}'),
-                    source: require('!!raw-loader!${module2}').default,
-                    filename: '${path.join(path.dirname(filename), module2).replace(/\\/g, '/')}.tsx',
-                  }),
-                }
-              }}
-            </Handbook>
-            
-            <Preview source={source({
-              module: require('${module1}'),
-              source: require('!!raw-loader!${module1}').default,
-              filename: '${path.join(path.dirname(filename), module1).replace(/\\/g, '/')}.tsx',
-            })}/>
-            <Preview source={source({
-              module: () => import('${module2}'),
-              source: require('!!raw-loader!${module2}').default,
-              filename: '${path.join(path.dirname(filename), module2).replace(/\\/g, '/')}.tsx',
-            })}/>
-            
-            <CodeBlock source={source({
-              module: require('${module1}'),
-              source: require('!!raw-loader!${module1}').default,
-              filename: '${path.join(path.dirname(filename), module1).replace(/\\/g, '/')}.tsx',
-            })}/>
-            <CodeBlock source={source({
-              module: () => import('${module2}'),
-              source: require('!!raw-loader!${module2}').default,
-              filename: '${path.join(path.dirname(filename), module2).replace(/\\/g, '/')}.tsx',
-            })}/>
-          </div>
-        )
-      }
-    `;
+        import { source } from '@handbook/source';
+        import { Handbook, Preview, CodeBlock } from '@handbook/components';
+        
+        function App() {
+          return (
+            <div>
+              <Handbook>
+                {{
+                  index: {
+                    Title1: source({
+                      module: require('${module1}'),
+                      source: require('!!raw-loader!${module1}').default,
+                      filename: '${moduleFilename1}.tsx',
+                    }),
+                    Title2: source({
+                      module: () => import('${module2}'),
+                      source: require('!!raw-loader!${module2}').default,
+                      filename: '${moduleFilename2}.tsx',
+                    }),
+                  }
+                }}
+              </Handbook>
+              
+              <Preview source={source({
+                module: require('${module1}'),
+                source: require('!!raw-loader!${module1}').default,
+                filename: '${moduleFilename1}.tsx',
+              })}/>
+              <Preview source={source({
+                module: () => import('${module2}'),
+                source: require('!!raw-loader!${module2}').default,
+                filename: '${moduleFilename2}.tsx',
+              })}/>
+              
+              <CodeBlock source={source({
+                module: require('${module1}'),
+                source: require('!!raw-loader!${module1}').default,
+                filename: '${moduleFilename1}.tsx',
+              })}/>
+              <CodeBlock source={source({
+                module: () => import('${module2}'),
+                source: require('!!raw-loader!${module2}').default,
+                filename: '${moduleFilename2}.tsx',
+              })}/>
+            </div>
+          )
+        }
+      `;
 
       // Assert
       expect(format(transform(source))).toBe(format(output));
@@ -235,24 +240,26 @@ describe('@handbook/babel-plugin', () => {
       const module = './samples/Sample';
 
       const source = `
-      import * as ns from '@handbook/source';
-      ns.source(require('${module}'));
-      ns.source(() => import('${module}'));
-    `;
+        import * as ns from '@handbook/source';
+        ns.source(require('${module}'));
+        ns.source(() => import('${module}'));
+      `;
+
+      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
 
       const output = `
-      import * as ns from '@handbook/source';
-      ns.source({
-        module: require('${module}'),
-        source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
-      });
-      ns.source({
-        module: () => import('${module}'),
-        source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
-      });
-    `;
+        import * as ns from '@handbook/source';
+        ns.source({
+          module: require('${module}'),
+          source: require('!!raw-loader!${module}').default,
+          filename: '${moduleFilename}.tsx',
+        });
+        ns.source({
+          module: () => import('${module}'),
+          source: require('!!raw-loader!${module}').default,
+          filename: '${moduleFilename}.tsx',
+        });
+      `;
 
       // Assert
       expect(format(transform(source))).toBe(format(output));
@@ -265,24 +272,26 @@ describe('@handbook/babel-plugin', () => {
       const module = './samples/Sample';
 
       const source = `
-      import ns from '@handbook/source';
-      ns.source(require('${module}'));
-      ns.source(() => import('${module}'));
-    `;
+        import ns from '@handbook/source';
+        ns.source(require('${module}'));
+        ns.source(() => import('${module}'));
+      `;
+
+      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
 
       const output = `
-      import ns from '@handbook/source';
-      ns.source({
-        module: require('${module}'),
-        source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
-      });
-      ns.source({
-        module: () => import('${module}'),
-        source: require('!!raw-loader!${module}').default,
-        filename: '${path.join(path.dirname(filename), module).replace(/\\/g, '/')}.tsx',
-      });
-    `;
+        import ns from '@handbook/source';
+        ns.source({
+          module: require('${module}'),
+          source: require('!!raw-loader!${module}').default,
+          filename: '${moduleFilename}.tsx',
+        });
+        ns.source({
+          module: () => import('${module}'),
+          source: require('!!raw-loader!${module}').default,
+          filename: '${moduleFilename}.tsx',
+        });
+      `;
 
       // Assert
       expect(format(transform(source))).toBe(format(output));
