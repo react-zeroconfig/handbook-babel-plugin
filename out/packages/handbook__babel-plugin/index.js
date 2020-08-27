@@ -73,7 +73,7 @@ function transformSourceCallExpression(t, path, babelOptions, pluginOptions) {
     path.node.arguments[0] = t.objectExpression([
         t.objectProperty(t.identifier('module'), args0),
         t.objectProperty(t.identifier('source'), t.memberExpression(t.callExpression(t.identifier('require'), [t.stringLiteral(`!!raw-loader!${importPath}`)]), t.identifier('default'))),
-        t.objectProperty(t.identifier('filename'), t.stringLiteral(path_1.default.relative(sourceRoot, absoulteFileLocation) + ext)),
+        t.objectProperty(t.identifier('filename'), t.stringLiteral(path_1.default.relative(sourceRoot, absoulteFileLocation).replace(/\\/g, '/') + ext)),
     ]);
 }
 exports.transformSourceCallExpression = transformSourceCallExpression;
