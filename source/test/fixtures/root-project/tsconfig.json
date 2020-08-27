@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "jsx": "react",
+    "paths": {
+      "@handbook/*": [
+        "../../../src/@handbook/*"
+      ]
+    }
+  },
+  "include": [
+    "."
+  ]
+}

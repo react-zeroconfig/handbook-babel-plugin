@@ -1,0 +1,8 @@
+# copy to .envrc
+# direnv allow .
+
+export INSPECT_START=9588
+# note that, if you want to change this port
+# you have to set the "Target discovery settings" of "chrome://inspect" on your browser
+export INSPECT_CHROME=9222
+export TS_NODE_PROJECT="tsconfig.script.json"
