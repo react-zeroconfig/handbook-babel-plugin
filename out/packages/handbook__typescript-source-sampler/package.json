@@ -1,0 +1,20 @@
+{
+  "author": "SSen <i@ssen.name>",
+  "license": "MIT",
+  "repository": "github:rocket-hangar/handbook",
+  "bugs": "https://github.com/rocket-hangar/handbook/issues",
+  "homepage": "https://github.com/rocket-hangar/handbook/tree/master/source/src/@handbook/typescript-source-sampler",
+  "engines": {
+    "node": ">=10"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "main": "index.js",
+  "typings": "index.d.ts",
+  "name": "@handbook/typescript-source-sampler",
+  "version": "1.0.0-alpha.1",
+  "dependencies": {
+    "typescript": "^4.0.2"
+  }
+}

@@ -21,5 +21,4 @@ yarn-error.log*
 
 # output
 coverage/
-out/
 test/storage/
