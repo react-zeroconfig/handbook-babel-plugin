@@ -6,6 +6,8 @@
 [![TEST](https://github.com/rocket-hangar/handbook/workflows/Test/badge.svg)](https://github.com/rocket-hangar/handbook/actions?query=workflow%3ATest)
 [![codecov](https://codecov.io/gh/rocket-hangar/handbook/branch/master/graph/badge.svg)](https://codecov.io/gh/rocket-hangar/handbook)
 
+Development documentation toolset. (example: <https://rocket-handbook-example.netlify.app/>)
+
 ## `@handbook/babel-plugin`
 
 Babel plugin will transform your source codes.
@@ -23,7 +25,9 @@ module.exports = {
 }
 ```
 
-## `@handbook/source`
+## `@handbook/source` 
+
+(`@handbook/babel-plugin` required)
 
 This code
 
