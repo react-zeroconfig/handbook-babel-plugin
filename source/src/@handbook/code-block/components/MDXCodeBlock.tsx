@@ -1,8 +1,6 @@
-import { mdx } from '@mdx-js/react';
 import Highlight, { defaultProps, Language, PrismTheme } from 'prism-react-renderer';
 import vsDark from 'prism-react-renderer/themes/vsDark';
 import React from 'react';
-import { LiveEditor, LiveError, LivePreview, LiveProvider } from 'react-live';
 
 export interface MDXCodeBlockProps {
   /**
@@ -21,46 +19,14 @@ export interface MDXCodeBlockProps {
 
   /** css className */
   className?: string;
-
-  /** react-live options */
-  live?: boolean;
-  render?: boolean;
 }
 
 export function MDXCodeBlock({
   theme = vsDark,
   children,
-  className,
-  live = false,
-  render = false,
+  className = 'language-javascript',
 }: MDXCodeBlockProps) {
-  const language = className?.replace(/language-/, '') as Language;
-
-  if (live) {
-    return (
-      <div style={{ marginTop: '2em', backgroundColor: 'black' }}>
-        <LiveProvider
-          code={children.trim()}
-          transformCode={(code) => '/** @jsx mdx */' + code}
-          scope={{ mdx }}
-        >
-          <LivePreview />
-          <LiveEditor />
-          <LiveError />
-        </LiveProvider>
-      </div>
-    );
-  }
-
-  if (render) {
-    return (
-      <div style={{ marginTop: '2em' }}>
-        <LiveProvider code={children}>
-          <LivePreview />
-        </LiveProvider>
-      </div>
-    );
-  }
+  const language = className.replace(/language-/, '') as Language;
 
   return (
     <Highlight {...defaultProps} code={children.trim()} language={language} theme={theme}>

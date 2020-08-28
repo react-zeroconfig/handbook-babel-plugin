@@ -23,12 +23,21 @@ const samples = sampling({
   samples: ['Interface', 'Type', 'Class', 'func', 'currying'],
 });
 
+const { source: iframeSource } = source('./iframe');
+
 function App() {
   return (
     <div className="layout">
       <div>
-        <h3>{withRequire.filename}</h3>
-        <CodeBlock language="typescript" theme={github} children={withRequire.source} />
+        <div>
+          <h3>{withRequire.filename}</h3>
+          <CodeBlock language="typescript" theme={github} children={withRequire.source} />
+        </div>
+        <div>
+          <h3>iframe with code block</h3>
+          <iframe src="iframe.html" height={120}></iframe>
+          <CodeBlock language="typescript" children={iframeSource} />
+        </div>
       </div>
       <div>
         <div>

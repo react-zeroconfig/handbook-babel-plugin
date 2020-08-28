@@ -8,8 +8,14 @@ body {
 
 .layout > div {
   flex: 1;
+  min-width: 0;
 }
 
 .layout > div:not(:last-child) {
   margin-right: 1em;
+}
+
+iframe {
+  width: 100%;
+  background-color: #cec3ff;
 }

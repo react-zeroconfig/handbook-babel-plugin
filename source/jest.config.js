@@ -6,6 +6,6 @@ module.exports = {
   // customize your config
   moduleNameMapper: {
     ...jestPresets.moduleNameMapper,
-    '@handbook/(.*)': '<rootDir>/src/@handbook/$1',
+    '@handbook/(.*)$': '<rootDir>/src/@handbook/$1',
   },
 };
