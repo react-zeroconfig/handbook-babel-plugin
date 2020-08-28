@@ -14,6 +14,16 @@ describe('@handbook/babel-plugin', () => {
     const output: string = `
       import { source } from "@handbook/source";
       source({
+        module: "../../c/d/e",
+        source: require("!!raw-loader!../../c/d/e").default,
+        filename: "c/d/e.tsx",
+      });
+      source({
+        module: "c/d/e",
+        source: require("!!raw-loader!c/d/e").default,
+        filename: "c/d/e.tsx",
+      });
+      source({
         module: require("../../c/d/e"),
         source: require("!!raw-loader!../../c/d/e").default,
         filename: "c/d/e.tsx",

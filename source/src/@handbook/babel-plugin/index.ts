@@ -73,7 +73,9 @@ function getImportPath<T>(
   t: typeof types,
   args0: types.Expression | types.SpreadElement | types.JSXNamespacedName | types.ArgumentPlaceholder,
 ): string | undefined {
-  if (
+  if (t.isStringLiteral(args0)) {
+    return args0.value;
+  } else if (
     t.isCallExpression(args0) &&
     t.isIdentifier(args0.callee) &&
     args0.callee.name === 'require' &&
@@ -118,7 +120,22 @@ export function transformSourceCallExpression(
 
   const ext: string | undefined = getExtension(
     absoulteFileLocation,
-    ...(pluginOptions.targetExtensions ?? ['.tsx', '.jsx', '.js', '.ts', '.mdx', '.mjs', '.mdx']),
+    ...(pluginOptions.targetExtensions ?? [
+      '.tsx',
+      '.jsx',
+      '.js',
+      '.ts',
+      '.mjs',
+      '.mdx',
+      '.css',
+      '.sass',
+      '.scss',
+      '.less',
+      '.svg',
+      '.yml',
+      '.yaml',
+      '.json',
+    ]),
   );
 
   if (!ext) return;

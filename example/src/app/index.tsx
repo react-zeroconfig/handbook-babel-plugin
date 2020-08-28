@@ -3,14 +3,18 @@ import { sampling } from '@handbook/typescript-source-sampler';
 import React from 'react';
 import { render } from 'react-dom';
 
-const module1 = source(require('./source/hello'));
-const module2 = source(() => import('./source/hello'));
+// source types
+const withRequire = source(require('./source/hello'));
+const withImport = source(() => import('./source/hello'));
+const withString = source('./source/hello');
 
-console.assert(module1.module.hello() === 'Hello World!');
-module2.module().then((module) => console.assert(module.hello() === 'Hello World!'));
-console.assert(module1.source === module2.source);
+console.assert(withRequire.module.hello() === 'Hello World!');
+withImport.module().then((module) => console.assert(module.hello() === 'Hello World!'));
+console.assert(withString.module === './source/hello');
 
-const samples = sampling({ source: module1.source, samples: ['Type', 'Class', 'hello'] });
+console.assert(new Set([withRequire.source, withImport.source, withString.source]).size === 1);
+
+const samples = sampling({ source: withRequire.source, samples: ['Type', 'Class', 'hello'] });
 
 function App() {
   return (
@@ -29,12 +33,12 @@ function App() {
       </pre>
       <hr />
       <pre>
-        <h3>{module1.filename}</h3>
-        <code>{module1.source}</code>
+        <h3>{withRequire.filename}</h3>
+        <code>{withRequire.source}</code>
       </pre>
       <pre>
-        <h3>{module2.filename}</h3>
-        <code>{module2.source}</code>
+        <h3>{withImport.filename}</h3>
+        <code>{withImport.source}</code>
       </pre>
     </div>
   );

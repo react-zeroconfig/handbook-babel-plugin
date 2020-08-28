@@ -6,8 +6,8 @@
     "start:debug": "node --inspect-brk=${INSPECT_START:-9588} -r ts-node/register scripts/start.ts"
   },
   "devDependencies": {
-    "@handbook/babel-plugin": "1.0.0-alpha.1",
-    "@handbook/source": "1.0.0-alpha.1",
+    "@handbook/babel-plugin": "1.0.0-alpha.2",
+    "@handbook/source": "1.0.0-alpha.2",
     "@rocket-scripts/browserslist": "^1.0.1",
     "@rocket-scripts/react-preset": "^1.0.1",
     "@rocket-scripts/web": "^1.0.0",
