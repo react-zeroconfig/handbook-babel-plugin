@@ -44,13 +44,13 @@ Will transform to like this
 import { source } from '@handbook/source';
 
 source({
-  module: require('./a/source.ts'),
-  source: require('!!raw-loader!./a/source.ts'),
+  module: require('./a/source'),
+  source: require('!!raw-loader!./a/source'),
   filename: 'a/source.ts'
 });
 source({
-  module: () => import('./source.ts'),
-  source: require('!!raw-loader!./a/source.ts'),
+  module: () => import('./source'),
+  source: require('!!raw-loader!./a/source'),
   filename: 'a/source.ts'
 });
 ```
@@ -149,3 +149,10 @@ export function App() {
   );
 }
 ```
+
+# Related Projects
+
+- <https://github.com/rocket-hangar/rocket-punch>
+- <https://github.com/rocket-hangar/rocket-scripts>
+- <https://github.com/rocket-hangar/handbook>
+- <https://github.com/rocket-hangar/generate-github-directory>
