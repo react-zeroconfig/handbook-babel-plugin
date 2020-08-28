@@ -1,0 +1,15 @@
+body {
+  padding: 20px;
+}
+
+.layout {
+  display: flex;
+}
+
+.layout > div {
+  flex: 1;
+}
+
+.layout > div:not(:last-child) {
+  margin-right: 1em;
+}

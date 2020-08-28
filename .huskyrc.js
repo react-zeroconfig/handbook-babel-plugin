@@ -13,6 +13,7 @@ module.exports = {
       ...cp(`README.md`, `source/src/@handbook/babel-plugin/README.md`),
       ...cp(`README.md`, `source/src/@handbook/source/README.md`),
       ...cp(`README.md`, `source/src/@handbook/typescript-source-sampler/README.md`),
+      ...cp(`README.md`, `source/src/@handbook/code-block/README.md`),
       `lint-staged`,
       ...precommit(`source`),
     ].join(' && '),

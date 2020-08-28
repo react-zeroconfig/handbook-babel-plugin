@@ -17,7 +17,8 @@
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "test": "yarn workspace source run test",
-    "coverage": "yarn workspace source run coverage --coverageDirectory $PWD/coverage"
+    "coverage": "yarn workspace source run coverage --coverageDirectory $PWD/coverage",
+    "example": "yarn workspace example run build"
   },
   "lint-staged": {
     "**/src/{**/*,*}.{ts,tsx}": [
