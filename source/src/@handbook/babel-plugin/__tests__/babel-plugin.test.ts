@@ -43,6 +43,26 @@ describe('@handbook/babel-plugin', () => {
         source: require("!!raw-loader!c/d/e").default,
         filename: "c/d/e.tsx",
       });
+      source({
+        module: "../../c/d/e.tsx",
+        source: require("!!raw-loader!../../c/d/e.tsx").default,
+        filename: "c/d/e.tsx",
+      });
+      source({
+        module: "c/d/e.tsx",
+        source: require("!!raw-loader!c/d/e.tsx").default,
+        filename: "c/d/e.tsx",
+      });
+      source({
+        module: require("../../c/d/e.tsx"),
+        source: require("!!raw-loader!../../c/d/e.tsx").default,
+        filename: "c/d/e.tsx",
+      });
+      source({
+        module: require("c/d/e.tsx"),
+        source: require("!!raw-loader!c/d/e.tsx").default,
+        filename: "c/d/e.tsx",
+      });
     `;
 
     test('should succeed to transform in src directory', async () => {

@@ -118,25 +118,28 @@ export function transformSourceCallExpression(
 
   if (!absoulteFileLocation) return;
 
-  const ext: string | undefined = getExtension(
-    absoulteFileLocation,
-    ...(pluginOptions.targetExtensions ?? [
-      '.tsx',
-      '.jsx',
-      '.js',
-      '.ts',
-      '.mjs',
-      '.mdx',
-      '.css',
-      '.sass',
-      '.scss',
-      '.less',
-      '.svg',
-      '.yml',
-      '.yaml',
-      '.json',
-    ]),
-  );
+  const targetExtensions: string[] = pluginOptions.targetExtensions ?? [
+    '.tsx',
+    '.jsx',
+    '.js',
+    '.ts',
+    '.mjs',
+    '.mdx',
+    '.css',
+    '.sass',
+    '.scss',
+    '.less',
+    '.svg',
+    '.yml',
+    '.yaml',
+    '.json',
+  ];
+
+  const pathHasExtname: boolean = fs.existsSync(absoulteFileLocation);
+
+  const ext: string | undefined = pathHasExtname
+    ? nodePath.extname(absoulteFileLocation)
+    : getExtension(absoulteFileLocation, ...targetExtensions);
 
   if (!ext) return;
 
@@ -153,7 +156,9 @@ export function transformSourceCallExpression(
     ),
     t.objectProperty(
       t.identifier('filename'),
-      t.stringLiteral(nodePath.relative(sourceRoot, absoulteFileLocation).replace(/\\/g, '/') + ext),
+      t.stringLiteral(
+        nodePath.relative(sourceRoot, absoulteFileLocation).replace(/\\/g, '/') + (pathHasExtname ? '' : ext),
+      ),
     ),
   ]);
 }
