@@ -13,6 +13,6 @@ describe('processCommand()', () => {
     const next = await processCommand(input, dirname);
 
     // Assert
-    expect(JSON.stringify(output)).toBe(JSON.stringify(next));
+    expect(JSON.stringify(next)).toBe(JSON.stringify(output));
   });
 });

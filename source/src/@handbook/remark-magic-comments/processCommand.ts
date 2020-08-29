@@ -89,7 +89,7 @@ export async function processCommand(root: RootNode, dirname: string): Promise<R
             type: 'code',
             lang: path.extname(file).substr(1),
             meta: null,
-            value: code,
+            value: code.replace(/\\r\\n/g, '\\n'),
           },
         );
       }
