@@ -26,7 +26,7 @@ export async function processCommand(root: RootNode, dirname: string): Promise<R
         spread: false,
         checked: null,
         children: files.map((file) => {
-          const relpath: string = path.relative(dirname, file);
+          const relpath: string = path.relative(dirname, file).replace(/\\/g, '/');
           const title: string = relpath.replace(/^(src\/)/, '');
           return {
             type: 'paragraph',
@@ -57,7 +57,7 @@ export async function processCommand(root: RootNode, dirname: string): Promise<R
 
       for (const file of files) {
         const source: string = await fs.readFile(file, 'utf8');
-        const relpath: string = path.relative(dirname, file);
+        const relpath: string = path.relative(dirname, file).replace(/\\/g, '/');
         const title: string = relpath.replace(/^(src\/)/, '');
 
         let code: string = source;
