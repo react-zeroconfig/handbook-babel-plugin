@@ -57,7 +57,7 @@ export async function processCommand(root: RootNode, dirname: string): Promise<R
       ).then((...group) => flatten(group));
 
       for (const file of files) {
-        const source: string = await fs.readFile(file, 'utf8');
+        const source: string = await fs.readFile(file, {encoding: 'utf8'});
         const relpath: string = path.relative(dirname, file).replace(/\\/g, '/');
         const title: string = relpath.replace(/^(src\/)/, '');
 
@@ -89,7 +89,7 @@ export async function processCommand(root: RootNode, dirname: string): Promise<R
             type: 'code',
             lang: path.extname(file).substr(1),
             meta: null,
-            value: code.replace(/\\r\\n/g, '\\n'),
+            value: code,
           },
         );
       }
