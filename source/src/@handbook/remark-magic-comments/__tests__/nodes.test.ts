@@ -1,4 +1,4 @@
-import { toCommandNode } from '@handbook/remark-magic-comments/nodes';
+import { resolveCommandNode } from '@handbook/remark-magic-comments/nodes';
 
 describe('nodes', () => {
   describe('source', () => {
@@ -14,7 +14,7 @@ describe('nodes', () => {
       const node = { type: 'html', value: comment };
 
       // Assert
-      expect(toCommandNode(node)).toMatchObject({
+      expect(resolveCommandNode(node)).toMatchObject({
         ...node,
         command: 'source',
         phase: 'start',
@@ -34,7 +34,7 @@ describe('nodes', () => {
       const node = { type: 'html', value: comment };
 
       // Assert
-      expect(toCommandNode(node)).toMatchObject({
+      expect(resolveCommandNode(node)).toMatchObject({
         ...node,
         command: 'source',
         phase: 'start',
@@ -54,7 +54,7 @@ describe('nodes', () => {
       const node = { type: 'html', value: comment };
 
       // Assert
-      expect(toCommandNode(node)).toMatchObject({
+      expect(resolveCommandNode(node)).toMatchObject({
         ...node,
         command: 'source',
         phase: 'start',
@@ -75,7 +75,7 @@ describe('nodes', () => {
       const node = { type: 'html', value: comment };
 
       // Assert
-      expect(toCommandNode(node)).toMatchObject({
+      expect(resolveCommandNode(node)).toMatchObject({
         ...node,
         command: 'source',
         phase: 'start',
@@ -97,7 +97,7 @@ describe('nodes', () => {
       const node = { type: 'html', value: comment };
 
       // Assert
-      expect(toCommandNode(node)).toMatchObject({
+      expect(resolveCommandNode(node)).toMatchObject({
         ...node,
         command: 'index',
         phase: 'start',
@@ -117,7 +117,7 @@ describe('nodes', () => {
       const node = { type: 'html', value: comment };
 
       // Assert
-      expect(toCommandNode(node)).toMatchObject({
+      expect(resolveCommandNode(node)).toMatchObject({
         ...node,
         command: 'index',
         phase: 'start',
@@ -137,7 +137,7 @@ describe('nodes', () => {
       const node = { type: 'html', value: comment };
 
       // Assert
-      expect(toCommandNode(node)).toMatchObject({
+      expect(resolveCommandNode(node)).toMatchObject({
         ...node,
         command: 'index',
         phase: 'start',
@@ -158,7 +158,7 @@ describe('nodes', () => {
     const node = { type: 'html', value: comment };
 
     // Assert
-    expect(toCommandNode(node)).toMatchObject({
+    expect(resolveCommandNode(node)).toMatchObject({
       ...node,
       command: 'source',
       phase: 'end',
@@ -177,7 +177,7 @@ describe('nodes', () => {
     const node = { type: 'html', value: comment };
 
     // Assert
-    expect(toCommandNode(node)).toMatchObject({
+    expect(resolveCommandNode(node)).toMatchObject({
       ...node,
       command: 'index',
       phase: 'end',

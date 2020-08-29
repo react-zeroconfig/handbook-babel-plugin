@@ -1,5 +1,6 @@
 import { markdownSourceImport, processor } from '@handbook/markdown-source-import';
-import { copyTmpDirectory } from '@ssen/tmp-directory';
+import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
+import { exec } from 'child_process';
 import fs from 'fs-extra';
 import path from 'path';
 import prettier from 'prettier';
@@ -9,6 +10,45 @@ function format(code: string): string {
 }
 
 describe('processor', () => {
+  test.skip('!!SNAPSHOT CREATION TASK', async () => {
+    process.env.__SNAPSHOTS_DIRECTORY = await createTmpDirectory();
+
+    const filepath: string = path.resolve(process.cwd(), 'test/fixtures/magic-comments/0.source.md');
+    const source = await fs.readFile(filepath, {
+      encoding: 'utf8',
+    });
+    const input: string = format(source);
+
+    const file = await processor.process({
+      contents: input,
+      path: filepath,
+      basename: path.basename(filepath),
+      extname: path.extname(filepath),
+      dirname: path.dirname(filepath),
+      cwd: process.cwd(),
+    });
+
+    const outputMarkdown: string = format(file.contents as string);
+
+    fs.writeFileSync(path.join(process.env.__SNAPSHOTS_DIRECTORY, '0.source.md'), input, {
+      encoding: 'utf8',
+    });
+
+    fs.writeFileSync(path.join(process.env.__SNAPSHOTS_DIRECTORY, '5.output.md'), outputMarkdown, {
+      encoding: 'utf8',
+    });
+
+    exec(`open ${process.env.__SNAPSHOTS_DIRECTORY}`);
+    exec(
+      `webstorm diff ${process.env.__SNAPSHOTS_DIRECTORY} ${path.resolve(
+        process.cwd(),
+        'test/fixtures/magic-comments',
+      )}`,
+    );
+
+    process.env.__SNAPSHOTS_DIRECTORY = undefined;
+  });
+
   test('should transform source to output', async () => {
     const filepath: string = path.resolve(process.cwd(), 'test/fixtures/magic-comments/0.source.md');
     const source = await fs.readFile(filepath, {

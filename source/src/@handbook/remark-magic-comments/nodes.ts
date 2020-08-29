@@ -31,7 +31,7 @@ export function isSourceNode(node: Node): node is SourceNode {
   return node.type === 'html' && node.command === 'source';
 }
 
-export function toCommandNode(node: Node): CommandNode | undefined {
+export function resolveCommandNode(node: Node): CommandNode | undefined {
   if (!isHtmlNode(node)) {
     return undefined;
   } else if (sourceStartPattern.test(node.value)) {
