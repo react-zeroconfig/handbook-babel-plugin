@@ -150,6 +150,37 @@ export function App() {
 }
 ```
 
+## `@handbook/markdown-source-import`
+
+Transform markdown with magic comments
+
+```md
+# Title
+
+## Sources
+
+<!-- source src/**/types.js -->
+<!-- /source -->
+
+## Indexes
+
+<!-- index src/**/*.md -->
+<!-- /index -->
+```
+
+```sh
+npx markdown-source-import doc.md
+```
+
+```json
+{
+  "husky": {
+    "pre-commit": "markdown-source-import src/**/*.md --git-add && lint-staged"
+  }
+}
+```
+
+
 # Related Projects
 
 - <https://github.com/rocket-hangar/rocket-punch>

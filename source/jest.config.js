@@ -8,4 +8,9 @@ module.exports = {
     ...jestPresets.moduleNameMapper,
     '@handbook/(.*)$': '<rootDir>/src/@handbook/$1',
   },
+  
+  collectCoverageFrom: [
+    ...jestPresets.collectCoverageFrom,
+    "!**/bin.ts",
+  ]
 };
