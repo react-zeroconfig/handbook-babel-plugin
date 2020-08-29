@@ -1,6 +1,7 @@
 import { sampling } from '@handbook/typescript-source-sampler';
 import { glob } from '@ssen/promised';
 import fs from 'fs-extra';
+import flatten from 'lodash.flattendeep';
 import path from 'path';
 import { Node } from 'unist';
 import { isIndexNode, isSourceNode } from './nodes';
@@ -19,7 +20,7 @@ export async function processCommand(root: RootNode, dirname: string): Promise<R
             ignore: ['**/node_modules/**', './node_modules/**'],
           }),
         ),
-      ).then((...group) => group.flat(2));
+      ).then((...group) => flatten(group));
 
       children.push({
         type: 'list',
@@ -53,7 +54,7 @@ export async function processCommand(root: RootNode, dirname: string): Promise<R
             ignore: ['**/node_modules/**', './node_modules/**'],
           }),
         ),
-      ).then((...group) => group.flat(2));
+      ).then((...group) => flatten(group));
 
       for (const file of files) {
         const source: string = await fs.readFile(file, 'utf8');

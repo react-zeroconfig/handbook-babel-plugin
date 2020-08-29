@@ -1,5 +1,6 @@
 import { glob } from '@ssen/promised';
 import * as fs from 'fs-extra';
+import flatten from 'lodash.flattendeep';
 import path from 'path';
 import prettier from 'prettier';
 import git from 'simple-git';
@@ -32,7 +33,7 @@ export async function markdownSourceImport({
         ignore,
       }),
     ),
-  ).then((...group) => group.flat(2));
+  ).then((...group) => flatten(group));
 
   for (const file of files) {
     const input: string = await fs.readFile(file, 'utf8');
