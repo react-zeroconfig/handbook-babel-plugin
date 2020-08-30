@@ -62,12 +62,33 @@ export interface CodeBlockProps {
 
 <!-- /source -->
 
-<!-- source components/CodeBlock.tsx --pick "MDXCodeBlockProps MDXCodeBlock" -->
+<!-- source components/MDXCodeBlock.tsx --pick "MDXCodeBlockProps MDXCodeBlock" -->
 
-[components/CodeBlock.tsx](components/CodeBlock.tsx)
+[components/MDXCodeBlock.tsx](components/MDXCodeBlock.tsx)
 
 ```tsx
+export function MDXCodeBlock({
+  theme = vsDark,
+  children,
+  className = "language-javascript",
+}: MDXCodeBlockProps) {}
 
+export interface MDXCodeBlockProps {
+  /**
+   * your code block theme
+   *
+   * you can choose one of dracula, duotoneDark, duotoneLight, github, nightOwl, nightOwlLight, oceanicNext, palenight, shadesOfPurple, synthwave84, ultramin and vsDark
+   *
+   * @example import github from 'prism-react-renderer/themes/github'
+   *
+   * @see <rootDir>/node_modules/prism-react-renderer/themes
+   */
+  theme?: PrismTheme;
+  /** source string */
+  children: string;
+  /** css className */
+  className?: string;
+}
 ```
 
 <!-- /source -->

@@ -9,7 +9,7 @@ function precommit(...workspaces) {
 module.exports = {
   hooks: {
     'pre-commit': [
-      `markdown-source-import "source/src/**/*.md" --git-add`,
+      `markdown-source-import "source/README.md source/src/**/*.md" --git-add`,
       `lint-staged`,
       ...precommit(`source`),
     ].join(' && '),
