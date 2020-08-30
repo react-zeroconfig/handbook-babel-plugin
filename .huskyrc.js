@@ -9,7 +9,7 @@ function precommit(...workspaces) {
 module.exports = {
   hooks: {
     'pre-commit': [
-      `node -r ts-node/register scripts/markdown-source-import.ts --git-add`,
+      `node -r ts-node/register -r tsconfig-paths/register scripts/markdown-source-import.ts --git-add`,
       `lint-staged`,
       ...precommit(`source`),
     ].join(' && '),
