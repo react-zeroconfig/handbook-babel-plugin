@@ -1,7 +1,6 @@
+import { isHtmlNode, Node, RootNode } from '@handbook/remark-node-types';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Node } from 'unist';
-import { isHtmlNode, RootNode } from './types';
 
 export async function transform(root: RootNode): Promise<RootNode> {
   const children: Node[] = [];

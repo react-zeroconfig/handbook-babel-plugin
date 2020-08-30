@@ -1,6 +1,5 @@
-import { Node } from 'unist';
+import { HtmlNode, isHtmlNode, Node } from '@handbook/remark-node-types';
 import parser from 'yargs-parser';
-import { HtmlNode, isHtmlNode } from './types';
 
 export const indexStartPattern: RegExp = /^<!--\s*index(.*)-->\s*$/;
 export const indexEndPattern: RegExp = /^<!--\s*\/index(.*)-->\s*$/;

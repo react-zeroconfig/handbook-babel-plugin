@@ -1,8 +1,7 @@
+import { RootNode, Node } from '@handbook/remark-node-types';
 import fs from 'fs';
 import path from 'path';
-import { Node } from 'unist';
 import { IndexNode, resolveCommandNode, SourceNode } from './nodes';
-import { RootNode } from './types';
 
 export function transformCommand(root: RootNode): RootNode {
   const children: Node[] = [];

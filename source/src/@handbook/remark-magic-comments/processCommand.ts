@@ -1,12 +1,11 @@
+import { Node, RootNode } from '@handbook/remark-node-types';
 import { sampling } from '@handbook/typescript-source-sampler';
 import { glob } from '@ssen/promised';
 import fs from 'fs-extra';
 import flatten from 'lodash.flattendeep';
 import fetch from 'node-fetch';
 import path from 'path';
-import { Node } from 'unist';
 import { IndexNode, isIndexNode, isSourceNode, SourceNode } from './nodes';
-import { RootNode } from './types';
 
 async function indexToNodes(node: IndexNode, dirname: string): Promise<Node[]> {
   if (!Array.isArray(node.filePatterns) || node.filePatterns.length < 1) return [];

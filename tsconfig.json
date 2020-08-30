@@ -17,5 +17,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "declaration": true
-  }
+  },
+  "include": [
+    "scripts"
+  ]
 }
