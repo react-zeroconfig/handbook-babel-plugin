@@ -19,7 +19,7 @@
     "test": "yarn workspace source run test",
     "coverage": "yarn workspace source run coverage --coverageDirectory $PWD/coverage",
     "format": "prettier --write \"**/*.{js,ts,tsx}\"",
-    "markdown-source-import": "markdown-source-import source/README.md source/src/**/*.md",
+    "markdown-source-import": "node -r ts-node/register scripts/markdown-source-import.ts",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "example": "yarn workspace example run build"
   },

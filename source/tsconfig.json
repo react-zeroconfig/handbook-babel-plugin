@@ -4,11 +4,7 @@
     // path
     "baseUrl": "src",
     // output
-    "outDir": "foo",
-    "lib": [
-      "DOM",
-      "ES2019.Array"
-    ]
+    "outDir": "foo"
   },
   "include": ["src", "test"]
 }
