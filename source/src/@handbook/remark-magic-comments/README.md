@@ -77,6 +77,44 @@ It converted to like below.
 ]
 ```
 
+## Magic Comments
+
+```md
+# Import Source
+
+## Single file
+
+<!-- source file.ts -->
+<!-- /source -->
+
+## Multiple files
+
+<!-- source file1.ts file2.ts file3.ts -->
+<!-- /source -->
+
+## Glob
+
+<!-- source tests/*.ts -->
+<!-- /source -->
+
+## `--pick` (only support js, jsx, ts, tsx)
+
+<!-- source file.ts --pick "someFunction SomeType SomeClass" -->
+<!-- /source -->
+
+# Create Index
+
+<!-- index src/**/*.md -->
+<!-- /index -->
+```
+
 ## See more
 
 - [`@handbook/*`](https://github.com/rocket-hangar/handbook) This package is one of `@handbook/*` packages. Go to the project home and see more details.
+
+## Related Projects
+
+- <https://github.com/rocket-hangar/rocket-punch>
+- <https://github.com/rocket-hangar/rocket-scripts>
+- <https://github.com/rocket-hangar/generate-github-directory>
+- <https://github.com/rocket-hangar/handbook>

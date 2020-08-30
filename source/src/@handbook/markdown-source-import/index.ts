@@ -48,14 +48,18 @@ export async function markdownSourceImport({
     });
 
     if (typeof contents === 'string') {
-      await fs.writeFile(file, prettier.format(contents, { parser: 'markdown' }), { encoding: 'utf8' });
+      const next: string = prettier.format(contents, { parser: 'markdown' });
 
-      try {
-        if (gitAdd) {
-          await git(cwd).add(file);
+      if (next !== input && next.length > 0) {
+        await fs.writeFile(file, next, { encoding: 'utf8' });
+
+        try {
+          if (gitAdd) {
+            await git(cwd).add(file);
+          }
+        } catch (error) {
+          console.error(error);
         }
-      } catch (error) {
-        console.error(error);
       }
     }
   }
