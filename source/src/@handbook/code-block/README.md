@@ -1,158 +1,102 @@
-# Handbook.js
+# `@handbook/code-block`
 
-[![NPM](https://img.shields.io/npm/v/@handbook/babel-plugin.svg)](https://www.npmjs.com/package/@handbook/babel-plugin)
-[![NPM](https://img.shields.io/npm/v/@handbook/source.svg)](https://www.npmjs.com/package/@handbook/source)
-[![NPM](https://img.shields.io/npm/v/@handbook/typescript-source-sampler.svg)](https://www.npmjs.com/package/@handbook/typescript-source-sampler)
+[![NPM](https://img.shields.io/npm/v/@handbook/code-block.svg)](https://www.npmjs.com/package/@handbook/code-block)
 [![TEST](https://github.com/rocket-hangar/handbook/workflows/Test/badge.svg)](https://github.com/rocket-hangar/handbook/actions?query=workflow%3ATest)
 [![codecov](https://codecov.io/gh/rocket-hangar/handbook/branch/master/graph/badge.svg)](https://codecov.io/gh/rocket-hangar/handbook)
 
-Development documentation toolset. (example: <https://rocket-handbook-example.netlify.app/>)
+## CodeBlock React components
 
-## `@handbook/babel-plugin`
+<a href="https://rocket-handbook-example.netlify.app" target="_blank">
 
-Babel plugin will transform your source codes.
+  <img src="https://raw.githubusercontent.com/rocket-hangar/handbook/master/doc-assets/code-block.png" width="800" style="max-width: 800px" />
 
-```js
-module.exports = {
-  // your babel config
-  presets: [
-    require.resolve('@rocket-scripts/react-preset/babelPreset'),
-  ],
-  plugins: [
-    // TODO set transform plugin
-    require.resolve('@handbook/babel-plugin'),
-  ],  
-}
-```
+</a>
 
-## `@handbook/source` 
-
-(`@handbook/babel-plugin` required)
-
-This code
-
-```js
-import { source } from '@handbook/source';
-
-source(require('./a/source'));
-source(() => import('./a/source'));
-```
-
-Will transform to like this
-
-```js
-import { source } from '@handbook/source';
-
-source({
-  module: require('./a/source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
-});
-source({
-  module: () => import('./source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
-});
-```
-
-## `@handbook/typescript-source-transform`
-
-You can sample your typescript source code.
-
-When you have a code like below
-
-```ts
-// hello.ts
-
-/**
- * type
- */
-export interface Type {
-  /** a */
-  a: string;
-  /** b */
-  b: number;
-}
-
-/**
- * class
- */
-export class Class {
-  constructor() {
-    console.log('constructor');
-  }
-
-  foo = () => {};
-
-  bar() {}
-}
-
-/**
- * function
- */
-export function hello() {
-  return 'Hello World!';
-}
-```
-
-You can get `Class` code only
-
-```js
-import { source } from '@handbook/source';
-import { sampling } from '@handbook/typescript-source-sampler';
-
-const module = source(require('./source/hello'));
-const samples = sampling({ source: module.source, samples: ['Class'] });
-
-console.log(samples.get('Class'));
-```
-
-It will print without body statements
-
-```ts
-/**
- * class
- */
-export class Class {
-}
-```
-
-## `@handbook/code-block`
-
-Simple use
+Use React component.
 
 ```jsx
-import { CodeBlock } from '@handbook/code-block';
+import { CodeBlock } from "@handbook/code-block";
 
 function Component(sourceCode: string) {
-  return (
-    <CodeBlock language="js">{sourceCode}</CodeBlock>
-  )
+  return <CodeBlock language="js">{sourceCode}</CodeBlock>;
 }
 ```
 
-Set default code block of mdx documents
+Set default code block for mdx documents.
 
 ```jsx
-import { MDXCodeBlock } from '@handbook/code-block';
+import { MDXCodeBlock } from "@handbook/code-block";
 
 const components = {
-  pre: props => <div {...props} />,
+  pre: (props) => <div {...props} />,
   code: MDXCodeBlock,
 };
+```
 
-export function App() {
-  return (
-    <MDXProvider components={components}>
-      <Content/>
-    </MDXProvider>
-  );
+## API
+
+<!-- source components/CodeBlock.tsx --pick "CodeBlockProps CodeBlock" -->
+
+[components/CodeBlock.tsx](components/CodeBlock.tsx)
+
+```tsx
+export function CodeBlock({ children, language, theme }: CodeBlockProps) {}
+
+export interface CodeBlockProps {
+  /**
+   * your code block theme
+   *
+   * you can choose one of dracula, duotoneDark, duotoneLight, github, nightOwl, nightOwlLight, oceanicNext, palenight, shadesOfPurple, synthwave84, ultramin and vsDark
+   *
+   * @example import github from 'prism-react-renderer/themes/github'
+   *
+   * @see <rootDir>/node_modules/prism-react-renderer/themes
+   */
+  theme?: PrismTheme;
+  /** source code */
+  children: string;
+  /** language */
+  language: Language;
 }
 ```
 
-# Related Projects
+<!-- /source -->
 
-- <https://github.com/rocket-hangar/rocket-punch>
-- <https://github.com/rocket-hangar/rocket-scripts>
-- <https://github.com/rocket-hangar/handbook>
-- <https://github.com/rocket-hangar/generate-github-directory>
+<!-- source components/CodeBlock.tsx --pick "MDXCodeBlockProps MDXCodeBlock" -->
+
+[components/CodeBlock.tsx](components/CodeBlock.tsx)
+
+```tsx
+
+```
+
+<!-- /source -->
+
+## How to get source codes
+
+These code block components print source codes only.
+
+If you want to get source codes into your Web App use [`@handbook/source`](https://www.npmjs.com/package/@handbook/source), [`@handbook/babel-plugin`](https://www.npmjs.com/package/@handbook/babel-plugin) and [`@handbook/typescript-source-sampler`](https://www.npmjs.com/package/@handbook/typescript-source-sampler).
+
+You can print your source code on your Web App easier.
+
+```tsx
+import React from "react";
+import { render } from "react-dom";
+import { source } from "@handbook/source";
+import { sampling } from "@handbook/typescript-source-sampler";
+import { CodeBlock } from "@handbook/code-block";
+
+const module = source(require("./source/hello"));
+const samples = sampling({ source: module.source, samples: ["Class", "func"] });
+
+function App() {
+  return <CodeBlock language="typescript" children={samples.get("Class")} />;
+}
+
+render(<App />, document.querySelector("#app"));
+```
+
+## See more
+
+- [`@handbook/*`](https://github.com/rocket-hangar/handbook) This package is one of `@handbook/*` packages. Go to the project home and see more details.

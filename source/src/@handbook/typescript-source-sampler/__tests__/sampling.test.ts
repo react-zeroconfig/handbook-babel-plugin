@@ -100,7 +100,7 @@ describe('@handbook/typescript-source-sampler', () => {
     const result = sampling({ samples: ['Test'], source });
 
     // Assert
-    expect(format(result.get('Test') ?? '')).toEqual(
+    expect(format(result.get('Test') ?? '')).toBe(
       format(`
       /** fldjkjek */
       export class Test {}
@@ -113,7 +113,7 @@ describe('@handbook/typescript-source-sampler', () => {
     const result = sampling({ samples: ['x'], source });
 
     // Assert
-    expect(format(result.get('x') ?? '')).toEqual(
+    expect(format(result.get('x') ?? '')).toBe(
       format(`
       /**
        * hello?
@@ -128,7 +128,7 @@ describe('@handbook/typescript-source-sampler', () => {
     const result = sampling({ samples: ['xx'], source });
 
     // Assert
-    expect(format(result.get('xx') ?? '')).toEqual(
+    expect(format(result.get('xx') ?? '')).toBe(
       format(`
       /** skjsksjk */
       export const xx: string = 'aaaa';
@@ -141,7 +141,7 @@ describe('@handbook/typescript-source-sampler', () => {
     const result = sampling({ samples: ['q'], source });
 
     // Assert
-    expect(format(result.get('q') ?? '')).toEqual(
+    expect(format(result.get('q') ?? '')).toBe(
       format(`
       /**
        * ????

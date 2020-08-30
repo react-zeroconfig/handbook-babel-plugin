@@ -15,43 +15,41 @@ Babel plugin will transform your source codes.
 ```js
 module.exports = {
   // your babel config
-  presets: [
-    require.resolve('@rocket-scripts/react-preset/babelPreset'),
-  ],
+  presets: [require.resolve("@rocket-scripts/react-preset/babelPreset")],
   plugins: [
     // TODO set transform plugin
-    require.resolve('@handbook/babel-plugin'),
-  ],  
-}
+    require.resolve("@handbook/babel-plugin"),
+  ],
+};
 ```
 
-## `@handbook/source` 
+## `@handbook/source`
 
 (`@handbook/babel-plugin` required)
 
 This code
 
 ```js
-import { source } from '@handbook/source';
+import { source } from "@handbook/source";
 
-source(require('./a/source'));
-source(() => import('./a/source'));
+source(require("./a/source"));
+source(() => import("./a/source"));
 ```
 
 Will transform to like this
 
 ```js
-import { source } from '@handbook/source';
+import { source } from "@handbook/source";
 
 source({
-  module: require('./a/source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
+  module: require("./a/source"),
+  source: require("!!raw-loader!./a/source"),
+  filename: "a/source.ts",
 });
 source({
-  module: () => import('./source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
+  module: () => import("./source"),
+  source: require("!!raw-loader!./a/source"),
+  filename: "a/source.ts",
 });
 ```
 
@@ -79,7 +77,7 @@ export interface Type {
  */
 export class Class {
   constructor() {
-    console.log('constructor');
+    console.log("constructor");
   }
 
   foo = () => {};
@@ -91,20 +89,20 @@ export class Class {
  * function
  */
 export function hello() {
-  return 'Hello World!';
+  return "Hello World!";
 }
 ```
 
 You can get `Class` code only
 
 ```js
-import { source } from '@handbook/source';
-import { sampling } from '@handbook/typescript-source-sampler';
+import { source } from "@handbook/source";
+import { sampling } from "@handbook/typescript-source-sampler";
 
-const module = source(require('./source/hello'));
-const samples = sampling({ source: module.source, samples: ['Class'] });
+const module = source(require("./source/hello"));
+const samples = sampling({ source: module.source, samples: ["Class"] });
 
-console.log(samples.get('Class'));
+console.log(samples.get("Class"));
 ```
 
 It will print without body statements
@@ -113,8 +111,7 @@ It will print without body statements
 /**
  * class
  */
-export class Class {
-}
+export class Class {}
 ```
 
 ## `@handbook/code-block`
@@ -122,29 +119,27 @@ export class Class {
 Simple use
 
 ```jsx
-import { CodeBlock } from '@handbook/code-block';
+import { CodeBlock } from "@handbook/code-block";
 
 function Component(sourceCode: string) {
-  return (
-    <CodeBlock language="js">{sourceCode}</CodeBlock>
-  )
+  return <CodeBlock language="js">{sourceCode}</CodeBlock>;
 }
 ```
 
 Set default code block of mdx documents
 
 ```jsx
-import { MDXCodeBlock } from '@handbook/code-block';
+import { MDXCodeBlock } from "@handbook/code-block";
 
 const components = {
-  pre: props => <div {...props} />,
+  pre: (props) => <div {...props} />,
   code: MDXCodeBlock,
 };
 
 export function App() {
   return (
     <MDXProvider components={components}>
-      <Content/>
+      <Content />
     </MDXProvider>
   );
 }
@@ -179,7 +174,6 @@ npx markdown-source-import doc.md
   }
 }
 ```
-
 
 # Related Projects
 

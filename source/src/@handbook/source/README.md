@@ -1,158 +1,41 @@
-# Handbook.js
+# `@handbook/source`
 
-[![NPM](https://img.shields.io/npm/v/@handbook/babel-plugin.svg)](https://www.npmjs.com/package/@handbook/babel-plugin)
 [![NPM](https://img.shields.io/npm/v/@handbook/source.svg)](https://www.npmjs.com/package/@handbook/source)
-[![NPM](https://img.shields.io/npm/v/@handbook/typescript-source-sampler.svg)](https://www.npmjs.com/package/@handbook/typescript-source-sampler)
 [![TEST](https://github.com/rocket-hangar/handbook/workflows/Test/badge.svg)](https://github.com/rocket-hangar/handbook/actions?query=workflow%3ATest)
 [![codecov](https://codecov.io/gh/rocket-hangar/handbook/branch/master/graph/badge.svg)](https://codecov.io/gh/rocket-hangar/handbook)
 
-Development documentation toolset. (example: <https://rocket-handbook-example.netlify.app/>)
+## What is this?
 
-## `@handbook/babel-plugin`
+You can use this when you need to import a module with its source code together.
 
-Babel plugin will transform your source codes.
+For example,
 
-```js
-module.exports = {
-  // your babel config
-  presets: [
-    require.resolve('@rocket-scripts/react-preset/babelPreset'),
-  ],
-  plugins: [
-    // TODO set transform plugin
-    require.resolve('@handbook/babel-plugin'),
-  ],  
-}
+```ts
+import { source } from "@handbook/source";
+
+const { module: foo, source: fooSource1 } = source(require("./foo"));
+const { module: fooImport, source: fooSource2 } = source(() => import("./foo"));
 ```
 
-## `@handbook/source` 
+The `source()` function will transform the source into the below.
 
-(`@handbook/babel-plugin` required)
+```ts
+import { source } from "@handbook/source";
 
-This code
-
-```js
-import { source } from '@handbook/source';
-
-source(require('./a/source'));
-source(() => import('./a/source'));
-```
-
-Will transform to like this
-
-```js
-import { source } from '@handbook/source';
-
-source({
-  module: require('./a/source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
+const { module: foo, source: fooSource1 } = source({
+  module: require("./foo"),
+  source: require("!!raw-loader!./foo"),
+  filename: "foo.ts",
 });
-source({
-  module: () => import('./source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
+const { module: fooImport, source: fooSource2 } = source({
+  module: () => import("./foo"),
+  source: require("!!raw-loader!./foo"),
+  filename: "foo.ts",
 });
 ```
 
-## `@handbook/typescript-source-transform`
+⚠️ `source()` function is just an identifier. You have to set [`@handbook/babel-plugin`](https://www.npmjs.com/package/@handbook/babel-plugin) on your babel configuration.
 
-You can sample your typescript source code.
+## See more
 
-When you have a code like below
-
-```ts
-// hello.ts
-
-/**
- * type
- */
-export interface Type {
-  /** a */
-  a: string;
-  /** b */
-  b: number;
-}
-
-/**
- * class
- */
-export class Class {
-  constructor() {
-    console.log('constructor');
-  }
-
-  foo = () => {};
-
-  bar() {}
-}
-
-/**
- * function
- */
-export function hello() {
-  return 'Hello World!';
-}
-```
-
-You can get `Class` code only
-
-```js
-import { source } from '@handbook/source';
-import { sampling } from '@handbook/typescript-source-sampler';
-
-const module = source(require('./source/hello'));
-const samples = sampling({ source: module.source, samples: ['Class'] });
-
-console.log(samples.get('Class'));
-```
-
-It will print without body statements
-
-```ts
-/**
- * class
- */
-export class Class {
-}
-```
-
-## `@handbook/code-block`
-
-Simple use
-
-```jsx
-import { CodeBlock } from '@handbook/code-block';
-
-function Component(sourceCode: string) {
-  return (
-    <CodeBlock language="js">{sourceCode}</CodeBlock>
-  )
-}
-```
-
-Set default code block of mdx documents
-
-```jsx
-import { MDXCodeBlock } from '@handbook/code-block';
-
-const components = {
-  pre: props => <div {...props} />,
-  code: MDXCodeBlock,
-};
-
-export function App() {
-  return (
-    <MDXProvider components={components}>
-      <Content/>
-    </MDXProvider>
-  );
-}
-```
-
-# Related Projects
-
-- <https://github.com/rocket-hangar/rocket-punch>
-- <https://github.com/rocket-hangar/rocket-scripts>
-- <https://github.com/rocket-hangar/handbook>
-- <https://github.com/rocket-hangar/generate-github-directory>
+- [`@handbook/*`](https://github.com/rocket-hangar/handbook) This package is one of `@handbook/*` packages. Go to the project home and see more details.

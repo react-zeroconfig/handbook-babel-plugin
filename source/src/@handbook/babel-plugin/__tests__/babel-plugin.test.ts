@@ -66,12 +66,13 @@ describe('@handbook/babel-plugin', () => {
     `;
 
     test('should succeed to transform in src directory', async () => {
+      // Arrange
       const cwd = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/src-project`));
       const file = 'a/b/c.tsx';
-
       const filename = path.join(cwd, 'src', file);
       const source: string = fs.readFileSync(filename, { encoding: 'utf8' });
 
+      // Act
       const res: BabelFileResult | null = babelTransform(format(source), {
         babelrc: false,
         cwd,
@@ -88,12 +89,13 @@ describe('@handbook/babel-plugin', () => {
     });
 
     test('should succeed to transform in root directory', async () => {
+      // Arrange
       const cwd = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/root-project`));
       const file = 'a/b/c.tsx';
-
       const filename = path.join(cwd, file);
       const source: string = fs.readFileSync(filename, { encoding: 'utf8' });
 
+      // Act
       const res: BabelFileResult | null = babelTransform(format(source), {
         babelrc: false,
         cwd,
@@ -131,11 +133,11 @@ describe('@handbook/babel-plugin', () => {
     test('should fail to transform', () => {
       // Arrange
       const source = `
-      import { source } from '@handbook/source';
-      import { foo } from './foo';
-      source(Math.random());
-      source(foo());
-    `;
+        import { source } from '@handbook/source';
+        import { foo } from './foo';
+        source(Math.random());
+        source(foo());
+      `;
 
       // Assert
       expect(format(transform(source))).toBe(format(source));

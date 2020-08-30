@@ -1,69 +1,16 @@
-# Handbook.js
+# `@handbook/typescript-source-sampler`
 
-[![NPM](https://img.shields.io/npm/v/@handbook/babel-plugin.svg)](https://www.npmjs.com/package/@handbook/babel-plugin)
-[![NPM](https://img.shields.io/npm/v/@handbook/source.svg)](https://www.npmjs.com/package/@handbook/source)
 [![NPM](https://img.shields.io/npm/v/@handbook/typescript-source-sampler.svg)](https://www.npmjs.com/package/@handbook/typescript-source-sampler)
 [![TEST](https://github.com/rocket-hangar/handbook/workflows/Test/badge.svg)](https://github.com/rocket-hangar/handbook/actions?query=workflow%3ATest)
 [![codecov](https://codecov.io/gh/rocket-hangar/handbook/branch/master/graph/badge.svg)](https://codecov.io/gh/rocket-hangar/handbook)
 
-Development documentation toolset. (example: <https://rocket-handbook-example.netlify.app/>)
+## What does this do?
 
-## `@handbook/babel-plugin`
+You can pickup items on your typescript source code.
 
-Babel plugin will transform your source codes.
-
-```js
-module.exports = {
-  // your babel config
-  presets: [
-    require.resolve('@rocket-scripts/react-preset/babelPreset'),
-  ],
-  plugins: [
-    // TODO set transform plugin
-    require.resolve('@handbook/babel-plugin'),
-  ],  
-}
-```
-
-## `@handbook/source` 
-
-(`@handbook/babel-plugin` required)
-
-This code
-
-```js
-import { source } from '@handbook/source';
-
-source(require('./a/source'));
-source(() => import('./a/source'));
-```
-
-Will transform to like this
-
-```js
-import { source } from '@handbook/source';
-
-source({
-  module: require('./a/source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
-});
-source({
-  module: () => import('./source'),
-  source: require('!!raw-loader!./a/source'),
-  filename: 'a/source.ts'
-});
-```
-
-## `@handbook/typescript-source-transform`
-
-You can sample your typescript source code.
-
-When you have a code like below
+When you have a code like below.
 
 ```ts
-// hello.ts
-
 /**
  * type
  */
@@ -79,7 +26,7 @@ export interface Type {
  */
 export class Class {
   constructor() {
-    console.log('constructor');
+    console.log("constructor");
   }
 
   foo = () => {};
@@ -91,68 +38,92 @@ export class Class {
  * function
  */
 export function hello() {
-  return 'Hello World!';
+  return "Hello World!";
 }
 ```
 
 You can get `Class` code only
 
 ```js
-import { source } from '@handbook/source';
-import { sampling } from '@handbook/typescript-source-sampler';
+import { source } from "@handbook/source";
+import { sampling } from "@handbook/typescript-source-sampler";
 
-const module = source(require('./source/hello'));
-const samples = sampling({ source: module.source, samples: ['Class'] });
+const module = source(require("./source/hello"));
+const samples = sampling({ source: module.source, samples: ["Class"] });
 
-console.log(samples.get('Class'));
+console.log(samples.get("Class"));
 ```
 
-It will print without body statements
+It will print without body statements.
 
 ```ts
 /**
  * class
  */
-export class Class {
+export class Class {}
+```
+
+## API
+
+<!-- source index.ts --pick "SamplingParams sampling" -->
+
+[index.ts](index.ts)
+
+```ts
+/**
+ * pick source codes
+ *
+ * @return Map<sample name, source code>
+ */
+export function sampling<S extends string>({
+  source,
+  samples,
+}: SamplingParams<S>): Map<S, string> {}
+
+export interface SamplingParams<S extends string> {
+  /** typescript source code */
+  source: string;
+  /**
+   * item names
+   *
+   * `Name` of `export interface Name {}`
+   *
+   * Please note that the names must be `export` items
+   */
+  samples: S[];
 }
 ```
 
-## `@handbook/code-block`
+<!-- /source -->
 
-Simple use
+## When you use to Web App
 
-```jsx
-import { CodeBlock } from '@handbook/code-block';
+Note that if you use Webpack to Web App, `typescript` makes a problem to you Webpack building. `typescript` has a considerable size, making it slower to build performance.
 
-function Component(sourceCode: string) {
-  return (
-    <CodeBlock language="js">{sourceCode}</CodeBlock>
-  )
-}
-```
+Please add `typescript` to `externals` of your Webpack configuration.
 
-Set default code block of mdx documents
-
-```jsx
-import { MDXCodeBlock } from '@handbook/code-block';
-
-const components = {
-  pre: props => <div {...props} />,
-  code: MDXCodeBlock,
+```js
+// your webpack.config.js
+module.exports = {
+  externals: {
+    typescript: "ts",
+  },
 };
-
-export function App() {
-  return (
-    <MDXProvider components={components}>
-      <Content/>
-    </MDXProvider>
-  );
-}
 ```
 
-# Related Projects
+And use CDN version `typescript`
 
-- <https://github.com/rocket-hangar/rocket-punch>
-- <https://github.com/rocket-hangar/rocket-scripts>
-- <https://github.com/rocket-hangar/handbook>
-- <https://github.com/rocket-hangar/generate-github-directory>
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typescript/4.0.2/typescript.min.js"></script>
+  </head>
+
+  <body></body>
+</html>
+```
+
+## See more
+
+- [`@handbook/*`](https://github.com/rocket-hangar/handbook) This package is one of `@handbook/*` packages. Go to the project home and see more details.
