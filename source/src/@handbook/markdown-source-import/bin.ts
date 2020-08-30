@@ -48,5 +48,3 @@ export function run() {
     console.log(params);
   }
 }
-
-run();

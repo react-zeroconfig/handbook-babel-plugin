@@ -1,9 +1,9 @@
 '@handbook/code-block':
-  version: 1.0.0-alpha.6
+  version: 1.0.0
   tag: latest
   module: esm
 '@handbook/markdown-source-import':
-  version: 1.0.0-alpha.6
+  version: 1.0.0
   tag: latest
   packageJson:
     bin:
@@ -13,5 +13,5 @@
       - readme
       - remark
 '@handbook/*':
-  version: 1.0.0-alpha.6
+  version: 1.0.0
   tag: latest
