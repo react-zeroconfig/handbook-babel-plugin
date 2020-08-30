@@ -11,6 +11,7 @@ Main Front-Ends are two.
     - [`@handbook/remark-magic-comments`](source/src/@handbook/remark-magic-comments)
     - [`@handbook/remark-split-html-lines`](source/src/@handbook/remark-split-html-lines)
 - Import Source Codes to your Web App. (e.g. `const { module, source, filename } = source(require('./module'))`)
+  - [Example Project](example)
   - [`@handbook/source`](source/src/@handbook/source) Main function
     - [`@handbook/babel-plugin`](source/src/@handbook/babel-plugin) Babel transformer plugin
   - [`@handbook/typescript-source-sampler`](source/src/@handbook/typescript-source-sampler) TypeScript Source Picker
