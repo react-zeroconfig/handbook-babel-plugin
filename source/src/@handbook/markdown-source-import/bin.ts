@@ -1,6 +1,6 @@
 import * as process from 'process';
 import yargs, { Argv } from 'yargs';
-//import { markdownSourceImport } from './';
+import { markdownSourceImport } from './';
 
 const cwd: string = process.cwd();
 
@@ -15,8 +15,8 @@ const options: Options = {
   'git-add': {
     type: 'boolean',
     default: false,
-    describe: 'set --git-add '
-  }
+    describe: 'set --git-add ',
+  },
 };
 
 export function run() {
@@ -39,10 +39,11 @@ export function run() {
   const params = {
     cwd,
     filePatterns,
+    gitAdd: gitAdd === true,
   };
 
   if (emit) {
-    //markdownSourceImport(params);
+    markdownSourceImport(params);
   } else {
     console.log(params);
   }

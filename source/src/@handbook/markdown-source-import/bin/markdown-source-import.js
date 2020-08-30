@@ -1,1 +1,2 @@
-require('../bin')
+#!/usr/bin/env node
+require('../bin').run();
