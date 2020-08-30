@@ -7,10 +7,10 @@
     "start:debug": "cross-env TS_NODE_PROJECT=tsconfig.script.json node --inspect-brk=${INSPECT_START-9588} -r ts-node/register scripts/start.ts"
   },
   "devDependencies": {
-    "@handbook/babel-plugin": "^1.0.0|latest",
-    "@handbook/code-block": "^1.0.0|latest",
-    "@handbook/source": "^1.0.0|latest",
-    "@handbook/typescript-source-sampler": "^1.0.0|latest",
+    "@handbook/babel-plugin": "^1.0.0-alpha.6",
+    "@handbook/code-block": "^1.0.0-alpha.6",
+    "@handbook/source": "^1.0.0-alpha.6",
+    "@handbook/typescript-source-sampler": "^1.0.0-alpha.6",
     "@rocket-scripts/browserslist": "^1.0.4",
     "@rocket-scripts/react-preset": "^1.0.4",
     "@rocket-scripts/web": "^1.0.4",
