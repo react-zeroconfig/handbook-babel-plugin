@@ -111,4 +111,38 @@ describe('markdownSourceImport()', () => {
 
     expect(format(a)).toBe(format(b));
   });
+
+  test('should find all paths', async () => {
+    const source = path.resolve(process.cwd(), 'test/fixtures/source-import-paths');
+    const cwd = await copyTmpDirectory(source);
+
+    await markdownSourceImport({
+      cwd,
+      filePatterns: ['*.md', '**/*.md'],
+    });
+
+    //exec(`webstorm diff ${cwd} ${path.resolve(process.cwd(), 'test/fixtures/source-import-paths')}`);
+    //exec(`open ${cwd}`);
+
+    function diff(dir: string) {
+      const inputPath = path.resolve(cwd, dir, 'doc.md');
+      const outputPath = path.resolve(
+        process.cwd(),
+        'test/fixtures/source-import-paths-output',
+        dir,
+        'doc.md',
+      );
+
+      const input: string = fs.readFileSync(inputPath, 'utf8');
+      const output: string = fs.readFileSync(outputPath, 'utf8');
+
+      expect(output).toBe(input);
+    }
+
+    diff('');
+    diff('src');
+    diff('src/a');
+    diff('src/a/b');
+    diff('src/a/b/d');
+  });
 });
