@@ -11,26 +11,26 @@ This is a babel plugin to transform all `source()` functions of `import { source
 For example,
 
 ```ts
-import { source } from "@handbook/source";
+import { source } from '@handbook/source';
 
-const { module: foo, source: fooSource1 } = source(require("./foo"));
-const { module: fooImport, source: fooSource2 } = source(() => import("./foo"));
+const { module: foo, source: fooSource1 } = source(require('./foo'));
+const { module: fooImport, source: fooSource2 } = source(() => import('./foo'));
 ```
 
 This babel plugin will transform the source into the below.
 
 ```ts
-import { source } from "@handbook/source";
+import { source } from '@handbook/source';
 
 const { module: foo, source: fooSource1 } = source({
-  module: require("./foo"),
-  source: require("!!raw-loader!./foo"),
-  filename: "foo.ts",
+  module: require('./foo'),
+  source: require('!!raw-loader!./foo'),
+  filename: 'foo.ts',
 });
 const { module: fooImport, source: fooSource2 } = source({
-  module: () => import("./foo"),
-  source: require("!!raw-loader!./foo"),
-  filename: "foo.ts",
+  module: () => import('./foo'),
+  source: require('!!raw-loader!./foo'),
+  filename: 'foo.ts',
 });
 ```
 
@@ -43,19 +43,19 @@ You can use this babel plugin when you need to make a development documentation 
 [\_\_tests\_\_/babel-plugin.test.ts](__tests__/babel-plugin.test.ts)
 
 ```ts
-import { BabelFileResult, transform as babelTransform } from "@babel/core";
-import { copyTmpDirectory } from "@ssen/tmp-directory";
-import fs from "fs";
-import path from "path";
-import prettier from "prettier";
-import plugin from "../";
+import { BabelFileResult, transform as babelTransform } from '@babel/core';
+import { copyTmpDirectory } from '@ssen/tmp-directory';
+import fs from 'fs';
+import path from 'path';
+import prettier from 'prettier';
+import plugin from '../';
 
 function format(code: string): string {
-  return prettier.format(code, { parser: "typescript" });
+  return prettier.format(code, { parser: 'typescript' });
 }
 
-describe("@handbook/babel-plugin", () => {
-  describe("file", () => {
+describe('@handbook/babel-plugin', () => {
+  describe('file', () => {
     const output: string = `
       import { source } from "@handbook/source";
       source({
@@ -110,50 +110,46 @@ describe("@handbook/babel-plugin", () => {
       });
     `;
 
-    test("should succeed to transform in src directory", async () => {
+    test('should succeed to transform in src directory', async () => {
       // Arrange
-      const cwd = await copyTmpDirectory(
-        path.join(process.cwd(), `test/fixtures/src-project`)
-      );
-      const file = "a/b/c.tsx";
-      const filename = path.join(cwd, "src", file);
-      const source: string = fs.readFileSync(filename, { encoding: "utf8" });
+      const cwd = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/src-project`));
+      const file = 'a/b/c.tsx';
+      const filename = path.join(cwd, 'src', file);
+      const source: string = fs.readFileSync(filename, { encoding: 'utf8' });
 
       // Act
       const res: BabelFileResult | null = babelTransform(format(source), {
         babelrc: false,
         cwd,
         filename,
-        plugins: [plugin, require.resolve("@babel/plugin-syntax-jsx")],
+        plugins: [plugin, require.resolve('@babel/plugin-syntax-jsx')],
       });
 
       if (!res || !res.code) {
-        throw new Error("plugin failed!");
+        throw new Error('plugin failed!');
       }
 
       // Assert
       expect(format(res.code)).toBe(format(output));
     });
 
-    test("should succeed to transform in root directory", async () => {
+    test('should succeed to transform in root directory', async () => {
       // Arrange
-      const cwd = await copyTmpDirectory(
-        path.join(process.cwd(), `test/fixtures/root-project`)
-      );
-      const file = "a/b/c.tsx";
+      const cwd = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/root-project`));
+      const file = 'a/b/c.tsx';
       const filename = path.join(cwd, file);
-      const source: string = fs.readFileSync(filename, { encoding: "utf8" });
+      const source: string = fs.readFileSync(filename, { encoding: 'utf8' });
 
       // Act
       const res: BabelFileResult | null = babelTransform(format(source), {
         babelrc: false,
         cwd,
         filename,
-        plugins: [plugin, require.resolve("@babel/plugin-syntax-jsx")],
+        plugins: [plugin, require.resolve('@babel/plugin-syntax-jsx')],
       });
 
       if (!res || !res.code) {
-        throw new Error("plugin failed!");
+        throw new Error('plugin failed!');
       }
 
       // Assert
@@ -161,25 +157,25 @@ describe("@handbook/babel-plugin", () => {
     });
   });
 
-  describe("source", () => {
-    const filename = "dir/test.tsx";
+  describe('source', () => {
+    const filename = 'dir/test.tsx';
 
     function transform(code: string): string {
       const res: BabelFileResult | null = babelTransform(format(code), {
         babelrc: false,
         cwd: process.cwd(),
-        filename: path.join(process.cwd(), "src", filename).replace(/\\/g, "/"),
-        plugins: [plugin, "@babel/plugin-syntax-jsx"],
+        filename: path.join(process.cwd(), 'src', filename).replace(/\\/g, '/'),
+        plugins: [plugin, '@babel/plugin-syntax-jsx'],
       });
 
       if (!res || !res.code) {
-        throw new Error("plugin failed!");
+        throw new Error('plugin failed!');
       }
 
       return res.code;
     }
 
-    test("should fail to transform", () => {
+    test('should fail to transform', () => {
       // Arrange
       const source = `
         import { source } from '@handbook/source';
@@ -192,11 +188,11 @@ describe("@handbook/babel-plugin", () => {
       expect(format(transform(source))).toBe(format(source));
     });
 
-    test("should succeed to transform", () => {
+    test('should succeed to transform', () => {
       // Arrange
-      process.env.HANDBOOK_TEST_EXT = ".tsx";
+      process.env.HANDBOOK_TEST_EXT = '.tsx';
 
-      const module = "./samples/Sample";
+      const module = './samples/Sample';
 
       const source = `
         import { source } from '@handbook/source';
@@ -204,9 +200,7 @@ describe("@handbook/babel-plugin", () => {
         source(() => import('${module}'));
       `;
 
-      const moduleFilename = path
-        .join(path.dirname(filename), module)
-        .replace(/\\/g, "/");
+      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
 
       const output = `
         import { source } from '@handbook/source';
@@ -226,12 +220,12 @@ describe("@handbook/babel-plugin", () => {
       expect(format(transform(source))).toBe(format(output));
     });
 
-    test("should succeed to transform in jsx", () => {
+    test('should succeed to transform in jsx', () => {
       // Arrange
-      process.env.HANDBOOK_TEST_EXT = ".tsx";
+      process.env.HANDBOOK_TEST_EXT = '.tsx';
 
-      const module1 = "./samples/Sample1";
-      const module2 = "./samples/Sample2";
+      const module1 = './samples/Sample1';
+      const module2 = './samples/Sample2';
 
       const source = `
         import { source } from '@handbook/source';
@@ -259,12 +253,8 @@ describe("@handbook/babel-plugin", () => {
         }
       `;
 
-      const moduleFilename1 = path
-        .join(path.dirname(filename), module1)
-        .replace(/\\/g, "/");
-      const moduleFilename2 = path
-        .join(path.dirname(filename), module2)
-        .replace(/\\/g, "/");
+      const moduleFilename1 = path.join(path.dirname(filename), module1).replace(/\\/g, '/');
+      const moduleFilename2 = path.join(path.dirname(filename), module2).replace(/\\/g, '/');
 
       const output = `
         import { source } from '@handbook/source';
@@ -320,11 +310,11 @@ describe("@handbook/babel-plugin", () => {
       expect(format(transform(source))).toBe(format(output));
     });
 
-    test("should succeed to transform namespace import", () => {
+    test('should succeed to transform namespace import', () => {
       // Arrange
-      process.env.HANDBOOK_TEST_EXT = ".tsx";
+      process.env.HANDBOOK_TEST_EXT = '.tsx';
 
-      const module = "./samples/Sample";
+      const module = './samples/Sample';
 
       const source = `
         import * as ns from '@handbook/source';
@@ -332,9 +322,7 @@ describe("@handbook/babel-plugin", () => {
         ns.source(() => import('${module}'));
       `;
 
-      const moduleFilename = path
-        .join(path.dirname(filename), module)
-        .replace(/\\/g, "/");
+      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
 
       const output = `
         import * as ns from '@handbook/source';
@@ -354,11 +342,11 @@ describe("@handbook/babel-plugin", () => {
       expect(format(transform(source))).toBe(format(output));
     });
 
-    test("should succeed to transform default import", () => {
+    test('should succeed to transform default import', () => {
       // Arrange
-      process.env.HANDBOOK_TEST_EXT = ".tsx";
+      process.env.HANDBOOK_TEST_EXT = '.tsx';
 
-      const module = "./samples/Sample";
+      const module = './samples/Sample';
 
       const source = `
         import ns from '@handbook/source';
@@ -366,9 +354,7 @@ describe("@handbook/babel-plugin", () => {
         ns.source(() => import('${module}'));
       `;
 
-      const moduleFilename = path
-        .join(path.dirname(filename), module)
-        .replace(/\\/g, "/");
+      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
 
       const output = `
         import ns from '@handbook/source';
@@ -411,7 +397,7 @@ module.exports = {
   presets: [],
   plugins: [
     // TODO set transform plugin
-    require.resolve("@handbook/babel-plugin"),
+    require.resolve('@handbook/babel-plugin'),
   ],
 };
 ```

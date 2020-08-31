@@ -7,13 +7,13 @@
 ## How to usage
 
 ```ts
-import unified from "unified";
+import unified from 'unified';
 
 export const processor = unified()
-  .use(require("remark-parse"))
-  .use(require("@handbook/remark-split-html-lines"))
-  .use(require("@handbook/remark-magic-comments"))
-  .use(require("remark-stringify"), {
+  .use(require('remark-parse'))
+  .use(require('@handbook/remark-split-html-lines'))
+  .use(require('@handbook/remark-magic-comments'))
+  .use(require('remark-stringify'), {
     listItemIndent: 1,
   });
 ```

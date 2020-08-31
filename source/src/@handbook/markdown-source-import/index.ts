@@ -48,7 +48,13 @@ export async function markdownSourceImport({
     });
 
     if (typeof contents === 'string') {
-      const next: string = prettier.format(contents, { parser: 'markdown' });
+      const config: prettier.Options | null = await prettier.resolveConfig(file, { useCache: true });
+      const next: string = prettier.format(contents, {
+        singleQuote: true,
+        trailingComma: 'all',
+        ...config,
+        parser: 'markdown',
+      });
 
       if (next !== input && next.length > 0) {
         await fs.writeFile(file, next, { encoding: 'utf8' });

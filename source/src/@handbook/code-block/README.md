@@ -15,7 +15,7 @@
 Use React component.
 
 ```jsx
-import { CodeBlock } from "@handbook/code-block";
+import { CodeBlock } from '@handbook/code-block';
 
 function Component(sourceCode: string) {
   return <CodeBlock language="js">{sourceCode}</CodeBlock>;
@@ -25,7 +25,7 @@ function Component(sourceCode: string) {
 Set default code block for mdx documents.
 
 ```jsx
-import { MDXCodeBlock } from "@handbook/code-block";
+import { MDXCodeBlock } from '@handbook/code-block';
 
 const components = {
   pre: (props) => <div {...props} />,
@@ -70,7 +70,7 @@ export interface CodeBlockProps {
 export function MDXCodeBlock({
   theme = vsDark,
   children,
-  className = "language-javascript",
+  className = 'language-javascript',
 }: MDXCodeBlockProps) {}
 
 export interface MDXCodeBlockProps {
@@ -102,20 +102,20 @@ If you want to get source codes into your Web App use [`@handbook/source`](https
 You can print your source code on your Web App easier.
 
 ```tsx
-import React from "react";
-import { render } from "react-dom";
-import { source } from "@handbook/source";
-import { sampling } from "@handbook/typescript-source-sampler";
-import { CodeBlock } from "@handbook/code-block";
+import React from 'react';
+import { render } from 'react-dom';
+import { source } from '@handbook/source';
+import { sampling } from '@handbook/typescript-source-sampler';
+import { CodeBlock } from '@handbook/code-block';
 
-const module = source(require("./source/hello"));
-const samples = sampling({ source: module.source, samples: ["Class", "func"] });
+const module = source(require('./source/hello'));
+const samples = sampling({ source: module.source, samples: ['Class', 'func'] });
 
 function App() {
-  return <CodeBlock language="typescript" children={samples.get("Class")} />;
+  return <CodeBlock language="typescript" children={samples.get('Class')} />;
 }
 
-render(<App />, document.querySelector("#app"));
+render(<App />, document.querySelector('#app'));
 ```
 
 ## See more

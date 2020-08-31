@@ -31,7 +31,7 @@ This tool will transform the markdown document into the below.
 
 ```ts
 // file.ts
-console.log("hello world");
+console.log('hello world');
 ```
 
 <!-- /source -->

@@ -11,26 +11,26 @@ You can use this when you need to import a module with its source code together.
 For example,
 
 ```ts
-import { source } from "@handbook/source";
+import { source } from '@handbook/source';
 
-const { module: foo, source: fooSource1 } = source(require("./foo"));
-const { module: fooImport, source: fooSource2 } = source(() => import("./foo"));
+const { module: foo, source: fooSource1 } = source(require('./foo'));
+const { module: fooImport, source: fooSource2 } = source(() => import('./foo'));
 ```
 
 The `source()` function will transform the source into the below.
 
 ```ts
-import { source } from "@handbook/source";
+import { source } from '@handbook/source';
 
 const { module: foo, source: fooSource1 } = source({
-  module: require("./foo"),
-  source: require("!!raw-loader!./foo"),
-  filename: "foo.ts",
+  module: require('./foo'),
+  source: require('!!raw-loader!./foo'),
+  filename: 'foo.ts',
 });
 const { module: fooImport, source: fooSource2 } = source({
-  module: () => import("./foo"),
-  source: require("!!raw-loader!./foo"),
-  filename: "foo.ts",
+  module: () => import('./foo'),
+  source: require('!!raw-loader!./foo'),
+  filename: 'foo.ts',
 });
 ```
 

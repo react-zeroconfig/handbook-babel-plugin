@@ -56,7 +56,7 @@ export interface Pick {
  * exclude item
  */
 export function drop() {
-  return "drop";
+  return 'drop';
 }
 ```
 
@@ -82,7 +82,7 @@ export interface Pick {
  * exclude item
  */
 export function drop() {
-  return "drop";
+  return 'drop';
 }
 ```
 

@@ -26,7 +26,7 @@ export interface Type {
  */
 export class Class {
   constructor() {
-    console.log("constructor");
+    console.log('constructor');
   }
 
   foo = () => {};
@@ -38,20 +38,20 @@ export class Class {
  * function
  */
 export function hello() {
-  return "Hello World!";
+  return 'Hello World!';
 }
 ```
 
 You can get `Class` code only
 
 ```js
-import { source } from "@handbook/source";
-import { sampling } from "@handbook/typescript-source-sampler";
+import { source } from '@handbook/source';
+import { sampling } from '@handbook/typescript-source-sampler';
 
-const module = source(require("./source/hello"));
-const samples = sampling({ source: module.source, samples: ["Class"] });
+const module = source(require('./source/hello'));
+const samples = sampling({ source: module.source, samples: ['Class'] });
 
-console.log(samples.get("Class"));
+console.log(samples.get('Class'));
 ```
 
 It will print without body statements.
@@ -70,8 +70,8 @@ export class Class {}
 [\_\_tests\_\_/sampling.test.ts](__tests__/sampling.test.ts)
 
 ```ts
-import { sampling } from "@handbook/typescript-source-sampler";
-import prettier from "prettier";
+import { sampling } from '@handbook/typescript-source-sampler';
+import prettier from 'prettier';
 
 const source: string = `
 /**
@@ -145,16 +145,16 @@ export class Test {
 `;
 
 function format(source: string): string {
-  return prettier.format(source, { parser: "typescript" });
+  return prettier.format(source, { parser: 'typescript' });
 }
 
-describe("@handbook/typescript-source-sampler", () => {
-  test("should get the interface sample", () => {
+describe('@handbook/typescript-source-sampler', () => {
+  test('should get the interface sample', () => {
     // Act
-    const result = sampling({ samples: ["X"], source });
+    const result = sampling({ samples: ['X'], source });
 
     // Assert
-    expect(format(result.get("X") ?? "")).toBe(
+    expect(format(result.get('X') ?? '')).toBe(
       format(`
       /**
        * Foo....
@@ -163,63 +163,63 @@ describe("@handbook/typescript-source-sampler", () => {
         a: string;
         b: number;
       }
-      `)
+      `),
     );
   });
 
-  test("should get the class sample", () => {
+  test('should get the class sample', () => {
     // Act
-    const result = sampling({ samples: ["Test"], source });
+    const result = sampling({ samples: ['Test'], source });
 
     // Assert
-    expect(format(result.get("Test") ?? "")).toBe(
+    expect(format(result.get('Test') ?? '')).toBe(
       format(`
       /** fldjkjek */
       export class Test {}
-      `)
+      `),
     );
   });
 
-  test("should get the function sample", () => {
+  test('should get the function sample', () => {
     // Act
-    const result = sampling({ samples: ["x"], source });
+    const result = sampling({ samples: ['x'], source });
 
     // Assert
-    expect(format(result.get("x") ?? "")).toBe(
+    expect(format(result.get('x') ?? '')).toBe(
       format(`
       /**
        * hello?
        */
       export function x({ a, b }: { a: number, b: number }): number {};
-      `)
+      `),
     );
   });
 
-  test("should get the variable sample", () => {
+  test('should get the variable sample', () => {
     // Act
-    const result = sampling({ samples: ["xx"], source });
+    const result = sampling({ samples: ['xx'], source });
 
     // Assert
-    expect(format(result.get("xx") ?? "")).toBe(
+    expect(format(result.get('xx') ?? '')).toBe(
       format(`
       /** skjsksjk */
       export const xx: string = 'aaaa';
-      `)
+      `),
     );
   });
 
-  test("should get arrow function", () => {
+  test('should get arrow function', () => {
     // Act
-    const result = sampling({ samples: ["q"], source });
+    const result = sampling({ samples: ['q'], source });
 
     // Assert
-    expect(format(result.get("q") ?? "")).toBe(
+    expect(format(result.get('q') ?? '')).toBe(
       format(`
       /**
        * ????
        */
       export const q = () => () => {}
-      `)
+      `),
     );
   });
 });
@@ -241,10 +241,7 @@ describe("@handbook/typescript-source-sampler", () => {
  *
  * @return Map<sample name, source code>
  */
-export function sampling<S extends string>({
-  source,
-  samples,
-}: SamplingParams<S>): Map<S, string> {}
+export function sampling<S extends string>({ source, samples }: SamplingParams<S>): Map<S, string> {}
 
 export interface SamplingParams<S extends string> {
   /** typescript source code */
@@ -272,7 +269,7 @@ Please add `typescript` to `externals` of your Webpack configuration.
 // your webpack.config.js
 module.exports = {
   externals: {
-    typescript: "ts",
+    typescript: 'ts',
   },
 };
 ```
