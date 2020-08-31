@@ -10,7 +10,8 @@ const options: Options = {
   emit: {
     type: 'boolean',
     default: true,
-    describe: 'if you set this false it will only print options without run (e.g. --no-emit or --emit false)',
+    describe:
+      'if you set this false it will only print options without run (e.g. --no-emit or --emit false)',
   },
   'git-add': {
     type: 'boolean',

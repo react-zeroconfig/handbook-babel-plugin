@@ -1,4 +1,7 @@
-import { markdownSourceImport, processor } from '@handbook/markdown-source-import';
+import {
+  markdownSourceImport,
+  processor,
+} from '@handbook/markdown-source-import';
 import { copyTmpDirectory, createTmpDirectory } from '@ssen/tmp-directory';
 import { exec } from 'child_process';
 import fs from 'fs-extra';
@@ -13,7 +16,10 @@ describe('processor', () => {
   test.skip('!!SNAPSHOT CREATION TASK', async () => {
     process.env.__SNAPSHOTS_DIRECTORY = await createTmpDirectory();
 
-    const filepath: string = path.resolve(process.cwd(), 'test/fixtures/magic-comments/0.source.md');
+    const filepath: string = path.resolve(
+      process.cwd(),
+      'test/fixtures/magic-comments/0.source.md',
+    );
     const source = await fs.readFile(filepath, {
       encoding: 'utf8',
     });
@@ -30,13 +36,21 @@ describe('processor', () => {
 
     const outputMarkdown: string = format(file.contents as string);
 
-    fs.writeFileSync(path.join(process.env.__SNAPSHOTS_DIRECTORY, '0.source.md'), input, {
-      encoding: 'utf8',
-    });
+    fs.writeFileSync(
+      path.join(process.env.__SNAPSHOTS_DIRECTORY, '0.source.md'),
+      input,
+      {
+        encoding: 'utf8',
+      },
+    );
 
-    fs.writeFileSync(path.join(process.env.__SNAPSHOTS_DIRECTORY, '5.output.md'), outputMarkdown, {
-      encoding: 'utf8',
-    });
+    fs.writeFileSync(
+      path.join(process.env.__SNAPSHOTS_DIRECTORY, '5.output.md'),
+      outputMarkdown,
+      {
+        encoding: 'utf8',
+      },
+    );
 
     exec(`open ${process.env.__SNAPSHOTS_DIRECTORY}`);
     exec(
@@ -50,7 +64,10 @@ describe('processor', () => {
   });
 
   test('should transform source to output', async () => {
-    const filepath: string = path.resolve(process.cwd(), 'test/fixtures/magic-comments/0.source.md');
+    const filepath: string = path.resolve(
+      process.cwd(),
+      'test/fixtures/magic-comments/0.source.md',
+    );
     const source = await fs.readFile(filepath, {
       encoding: 'utf8',
     });
@@ -73,7 +90,10 @@ describe('processor', () => {
   });
 
   test('should re-transform output to output', async () => {
-    const filepath: string = path.resolve(process.cwd(), 'test/fixtures/magic-comments/5.output.md');
+    const filepath: string = path.resolve(
+      process.cwd(),
+      'test/fixtures/magic-comments/5.output.md',
+    );
     const source = await fs.readFile(filepath, {
       encoding: 'utf8',
     });
@@ -113,7 +133,10 @@ describe('markdownSourceImport()', () => {
   });
 
   test('should find all paths', async () => {
-    const source = path.resolve(process.cwd(), 'test/fixtures/source-import-paths');
+    const source = path.resolve(
+      process.cwd(),
+      'test/fixtures/source-import-paths',
+    );
     const cwd = await copyTmpDirectory(source);
 
     await markdownSourceImport({

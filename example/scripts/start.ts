@@ -13,7 +13,10 @@ import { options } from '../scripts/options';
   const browser = await puppeteer.launch({
     headless: false,
     defaultViewport: null,
-    args: ['--start-fullscreen', `--remote-debugging-port=${remoteDebuggingPort}`],
+    args: [
+      '--start-fullscreen',
+      `--remote-debugging-port=${remoteDebuggingPort}`,
+    ],
     devtools: true,
   });
 

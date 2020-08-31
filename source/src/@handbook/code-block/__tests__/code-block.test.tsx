@@ -18,22 +18,34 @@ interface Test {
 describe('@handbook/code-block', () => {
   test('should render <MDXCodeBlock>', async () => {
     // Arrange
-    const { container } = render(<MDXCodeBlock className="language-typescript" children={source} />);
+    const { container } = render(
+      <MDXCodeBlock className="language-typescript" children={source} />,
+    );
 
     // Assert
-    expect(container.querySelector('.token.keyword')?.textContent).toBe('interface');
-    expect(container.querySelector('.token.class-name')?.textContent).toBe('Test');
+    expect(container.querySelector('.token.keyword')?.textContent).toBe(
+      'interface',
+    );
+    expect(container.querySelector('.token.class-name')?.textContent).toBe(
+      'Test',
+    );
     expect(format(container.textContent ?? '')).toBe(source);
     expect(container.innerHTML).toMatchSnapshot();
   });
 
   test('should render <CodeBlock>', async () => {
     // Arrange
-    const { container } = render(<CodeBlock language="typescript" children={source} />);
+    const { container } = render(
+      <CodeBlock language="typescript" children={source} />,
+    );
 
     // Assert
-    expect(container.querySelector('.token.keyword')?.textContent).toBe('interface');
-    expect(container.querySelector('.token.class-name')?.textContent).toBe('Test');
+    expect(container.querySelector('.token.keyword')?.textContent).toBe(
+      'interface',
+    );
+    expect(container.querySelector('.token.class-name')?.textContent).toBe(
+      'Test',
+    );
     expect(format(container.textContent ?? '')).toBe(source);
     expect(container.innerHTML).toMatchSnapshot();
   });

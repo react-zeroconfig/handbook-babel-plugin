@@ -2,7 +2,10 @@ import ts from 'typescript';
 
 export const dummyFilename: string = 'test.ts';
 
-export function createSourceProgram(source: string, compilerOptions: ts.CompilerOptions = {}): ts.Program {
+export function createSourceProgram(
+  source: string,
+  compilerOptions: ts.CompilerOptions = {},
+): ts.Program {
   const host: ts.CompilerHost = {
     getSourceFile: (
       fileName: string,
@@ -10,7 +13,13 @@ export function createSourceProgram(source: string, compilerOptions: ts.Compiler
       _onError?: (message: string) => void,
     ) => {
       return fileName === dummyFilename
-        ? ts.createSourceFile(fileName, source, languageVersion, false, ts.ScriptKind.TSX)
+        ? ts.createSourceFile(
+            fileName,
+            source,
+            languageVersion,
+            false,
+            ts.ScriptKind.TSX,
+          )
         : undefined;
     },
     getDefaultLibFileName: () => '',

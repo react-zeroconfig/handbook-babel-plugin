@@ -12,11 +12,19 @@ const withImport = source(() => import('./source/hello'));
 const withString = source('./source/hello');
 
 console.assert(withRequire.module.func() === 'Hello World!');
-withImport.module().then((module) => console.assert(module.func() === 'Hello World!'));
+withImport
+  .module()
+  .then((module) => console.assert(module.func() === 'Hello World!'));
 console.assert(withString.module === './source/hello');
 
-console.assert(new Set([withRequire.source, withImport.source, withString.source]).size === 1);
-console.assert(new Set([withRequire.filename, withImport.filename, withString.filename]).size === 1);
+console.assert(
+  new Set([withRequire.source, withImport.source, withString.source]).size ===
+    1,
+);
+console.assert(
+  new Set([withRequire.filename, withImport.filename, withString.filename])
+    .size === 1,
+);
 
 const samples = sampling({
   source: withRequire.source,
@@ -31,7 +39,11 @@ function App() {
       <div>
         <div>
           <h3>{withRequire.filename}</h3>
-          <CodeBlock language="typescript" theme={github} children={withRequire.source} />
+          <CodeBlock
+            language="typescript"
+            theme={github}
+            children={withRequire.source}
+          />
         </div>
         <div>
           <h3>iframe with code block</h3>
@@ -42,23 +54,38 @@ function App() {
       <div>
         <div>
           <h3>Interface</h3>
-          <CodeBlock language="typescript" children={samples.get('Interface') ?? ''} />
+          <CodeBlock
+            language="typescript"
+            children={samples.get('Interface') ?? ''}
+          />
         </div>
         <div>
           <h3>Type</h3>
-          <CodeBlock language="typescript" children={samples.get('Type') ?? ''} />
+          <CodeBlock
+            language="typescript"
+            children={samples.get('Type') ?? ''}
+          />
         </div>
         <div>
           <h3>Class</h3>
-          <CodeBlock language="typescript" children={samples.get('Class') ?? ''} />
+          <CodeBlock
+            language="typescript"
+            children={samples.get('Class') ?? ''}
+          />
         </div>
         <div>
           <h3>func</h3>
-          <CodeBlock language="typescript" children={samples.get('func') ?? ''} />
+          <CodeBlock
+            language="typescript"
+            children={samples.get('func') ?? ''}
+          />
         </div>
         <div>
           <h3>currying</h3>
-          <CodeBlock language="typescript" children={samples.get('currying') ?? ''} />
+          <CodeBlock
+            language="typescript"
+            children={samples.get('currying') ?? ''}
+          />
         </div>
       </div>
     </div>

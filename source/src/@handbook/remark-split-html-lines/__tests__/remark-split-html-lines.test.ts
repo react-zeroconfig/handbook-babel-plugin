@@ -6,9 +6,14 @@ import path from 'path';
 describe('transform', () => {
   test('should transform node', async () => {
     // Arrange
-    const input = await fs.readJson(path.resolve(process.cwd(), 'test/fixtures/magic-comments/1.parse.json'));
+    const input = await fs.readJson(
+      path.resolve(process.cwd(), 'test/fixtures/magic-comments/1.parse.json'),
+    );
     const output = await fs.readJson(
-      path.resolve(process.cwd(), 'test/fixtures/magic-comments/2.split-line.json'),
+      path.resolve(
+        process.cwd(),
+        'test/fixtures/magic-comments/2.split-line.json',
+      ),
     );
 
     // Act
@@ -20,9 +25,14 @@ describe('transform', () => {
 
   test('should transform node', async () => {
     // Arrange
-    const input = await fs.readJson(path.resolve(process.cwd(), 'test/fixtures/magic-comments/1.parse.json'));
+    const input = await fs.readJson(
+      path.resolve(process.cwd(), 'test/fixtures/magic-comments/1.parse.json'),
+    );
     const output = await fs.readJson(
-      path.resolve(process.cwd(), 'test/fixtures/magic-comments/2.split-line.json'),
+      path.resolve(
+        process.cwd(),
+        'test/fixtures/magic-comments/2.split-line.json',
+      ),
     );
 
     // Act

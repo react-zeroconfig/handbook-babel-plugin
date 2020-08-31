@@ -30,8 +30,8 @@
     ]
   },
   "devDependencies": {
-    "@ssen/eslint-config": "^1.1.0",
-    "@ssen/prettier-config": "^1.0.0",
+    "@ssen/eslint-config": "^1.2.0",
+    "@ssen/prettier-config": "^1.2.0",
     "cross-env": "^7.0.2",
     "eslint": "^7.7.0",
     "eslint-config-prettier": "^6.11.0",

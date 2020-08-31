@@ -1,4 +1,8 @@
-import Highlight, { defaultProps, Language, PrismTheme } from 'prism-react-renderer';
+import Highlight, {
+  defaultProps,
+  Language,
+  PrismTheme,
+} from 'prism-react-renderer';
 import vsDark from 'prism-react-renderer/themes/vsDark';
 import React from 'react';
 
@@ -29,7 +33,12 @@ export function MDXCodeBlock({
   const language = className.replace(/language-/, '') as Language;
 
   return (
-    <Highlight {...defaultProps} code={children.trim()} language={language} theme={theme}>
+    <Highlight
+      {...defaultProps}
+      code={children.trim()}
+      language={language}
+      theme={theme}
+    >
       {({ className: cls, style, tokens, getLineProps, getTokenProps }) => (
         <pre className={cls} style={{ ...style, padding: '1em' }}>
           {tokens.map((line, i) => (

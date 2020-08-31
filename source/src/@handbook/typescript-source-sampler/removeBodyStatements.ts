@@ -10,7 +10,10 @@ export function removeBodyStatements(node: ts.Node): ts.Node {
   } else if (ts.isVariableDeclarationList(node)) {
     return ts.factory.updateVariableDeclarationList(
       node,
-      node.declarations.map((declaration) => removeBodyStatements(declaration) as ts.VariableDeclaration),
+      node.declarations.map(
+        (declaration) =>
+          removeBodyStatements(declaration) as ts.VariableDeclaration,
+      ),
     );
   } else if (ts.isClassDeclaration(node)) {
     return ts.factory.updateClassDeclaration(

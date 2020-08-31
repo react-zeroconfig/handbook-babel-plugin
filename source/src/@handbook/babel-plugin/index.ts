@@ -33,8 +33,14 @@ interface PluginOptions {
   targetExtensions?: string[];
 }
 
-function getExtension(loc: string, ...extensions: string[]): string | undefined {
-  return process.env.HANDBOOK_TEST_EXT ?? extensions.find((ext) => fs.existsSync(loc + ext));
+function getExtension(
+  loc: string,
+  ...extensions: string[]
+): string | undefined {
+  return (
+    process.env.HANDBOOK_TEST_EXT ??
+    extensions.find((ext) => fs.existsSync(loc + ext))
+  );
 }
 
 function getAbsoluteFileLocation(
@@ -43,12 +49,16 @@ function getAbsoluteFileLocation(
   pluginOptions: PluginOptions,
 ): string | undefined {
   if (/^\./.test(importPath)) {
-    return nodePath.resolve(nodePath.dirname(babelOptions.filename), importPath);
+    return nodePath.resolve(
+      nodePath.dirname(babelOptions.filename),
+      importPath,
+    );
   }
 
   const dir: string = nodePath.dirname(importPath);
 
-  const sourceRoot: string = pluginOptions.sourceRoot ?? nodePath.resolve(babelOptions.cwd, 'src');
+  const sourceRoot: string =
+    pluginOptions.sourceRoot ?? nodePath.resolve(babelOptions.cwd, 'src');
 
   if (fs.existsSync(nodePath.resolve(sourceRoot, dir))) {
     return nodePath.resolve(sourceRoot, importPath);
@@ -59,8 +69,12 @@ function getAbsoluteFileLocation(
   }
 }
 
-function getSourceRoot(babelOptions: BabelOptions, pluginOptions: PluginOptions): string {
-  if (typeof pluginOptions.sourceRoot === 'string') return pluginOptions.sourceRoot;
+function getSourceRoot(
+  babelOptions: BabelOptions,
+  pluginOptions: PluginOptions,
+): string {
+  if (typeof pluginOptions.sourceRoot === 'string')
+    return pluginOptions.sourceRoot;
 
   if (fs.existsSync(nodePath.resolve(babelOptions.cwd, 'src'))) {
     return nodePath.resolve(babelOptions.cwd, 'src');
@@ -71,7 +85,11 @@ function getSourceRoot(babelOptions: BabelOptions, pluginOptions: PluginOptions)
 
 function getImportPath<T>(
   t: typeof types,
-  args0: types.Expression | types.SpreadElement | types.JSXNamespacedName | types.ArgumentPlaceholder,
+  args0:
+    | types.Expression
+    | types.SpreadElement
+    | types.JSXNamespacedName
+    | types.ArgumentPlaceholder,
 ): string | undefined {
   if (t.isStringLiteral(args0)) {
     return args0.value;
@@ -150,21 +168,28 @@ export function transformSourceCallExpression(
     t.objectProperty(
       t.identifier('source'),
       t.memberExpression(
-        t.callExpression(t.identifier('require'), [t.stringLiteral(`!!raw-loader!${importPath}`)]),
+        t.callExpression(t.identifier('require'), [
+          t.stringLiteral(`!!raw-loader!${importPath}`),
+        ]),
         t.identifier('default'),
       ),
     ),
     t.objectProperty(
       t.identifier('filename'),
       t.stringLiteral(
-        nodePath.relative(sourceRoot, absoulteFileLocation).replace(/\\/g, '/') + (pathHasExtname ? '' : ext),
+        nodePath
+          .relative(sourceRoot, absoulteFileLocation)
+          .replace(/\\/g, '/') + (pathHasExtname ? '' : ext),
       ),
     ),
   ]);
 }
 
 //eslint-disable-next-line import/no-anonymous-default-export
-export default function ({ types: t }: Babel, pluginOptions: PluginOptions): BabelPlugin {
+export default function (
+  { types: t }: Babel,
+  pluginOptions: PluginOptions,
+): BabelPlugin {
   let babelOptions: BabelOptions | null = null;
   const localNames: Map<typeof NAMESPACE | typeof SOURCE, string> = new Map();
 
@@ -181,7 +206,10 @@ export default function ({ types: t }: Babel, pluginOptions: PluginOptions): Bab
         for (const specifier of path.node.specifiers) {
           // import * as ns from '@handbook/source'
           // import ns from '@handbook/source'
-          if (t.isImportNamespaceSpecifier(specifier) || t.isImportDefaultSpecifier(specifier)) {
+          if (
+            t.isImportNamespaceSpecifier(specifier) ||
+            t.isImportDefaultSpecifier(specifier)
+          ) {
             localNames.set(NAMESPACE, specifier.local.name);
           }
           // import { source } from '@handbook/source'
@@ -198,18 +226,25 @@ export default function ({ types: t }: Babel, pluginOptions: PluginOptions): Bab
       CallExpression(path: NodePath<types.CallExpression>) {
         if (!babelOptions) return;
 
-        function hasCall(path: NodePath<types.CallExpression>, callName: typeof SOURCE): boolean {
+        function hasCall(
+          path: NodePath<types.CallExpression>,
+          callName: typeof SOURCE,
+        ): boolean {
           return (
             // import { source } from '@handbook/source'
             // import { source as another } from '@handbook/source'
             (localNames.has(callName) &&
-              t.isIdentifier(path.node.callee, { name: localNames.get(callName) })) ||
+              t.isIdentifier(path.node.callee, {
+                name: localNames.get(callName),
+              })) ||
             // import * as ns from '@handbook/source'
             // import ns from '@handbook/source'
             (localNames.has(NAMESPACE) &&
               'object' in path.node.callee &&
               'property' in path.node.callee &&
-              t.isIdentifier(path.node.callee.object, { name: localNames.get(NAMESPACE) }) &&
+              t.isIdentifier(path.node.callee.object, {
+                name: localNames.get(NAMESPACE),
+              }) &&
               t.isIdentifier(path.node.callee.property, { name: callName }))
           );
         }

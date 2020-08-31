@@ -112,7 +112,9 @@ describe('@handbook/babel-plugin', () => {
 
     test('should succeed to transform in src directory', async () => {
       // Arrange
-      const cwd = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/src-project`));
+      const cwd = await copyTmpDirectory(
+        path.join(process.cwd(), `test/fixtures/src-project`),
+      );
       const file = 'a/b/c.tsx';
       const filename = path.join(cwd, 'src', file);
       const source: string = fs.readFileSync(filename, { encoding: 'utf8' });
@@ -135,7 +137,9 @@ describe('@handbook/babel-plugin', () => {
 
     test('should succeed to transform in root directory', async () => {
       // Arrange
-      const cwd = await copyTmpDirectory(path.join(process.cwd(), `test/fixtures/root-project`));
+      const cwd = await copyTmpDirectory(
+        path.join(process.cwd(), `test/fixtures/root-project`),
+      );
       const file = 'a/b/c.tsx';
       const filename = path.join(cwd, file);
       const source: string = fs.readFileSync(filename, { encoding: 'utf8' });
@@ -200,7 +204,9 @@ describe('@handbook/babel-plugin', () => {
         source(() => import('${module}'));
       `;
 
-      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
+      const moduleFilename = path
+        .join(path.dirname(filename), module)
+        .replace(/\\/g, '/');
 
       const output = `
         import { source } from '@handbook/source';
@@ -253,8 +259,12 @@ describe('@handbook/babel-plugin', () => {
         }
       `;
 
-      const moduleFilename1 = path.join(path.dirname(filename), module1).replace(/\\/g, '/');
-      const moduleFilename2 = path.join(path.dirname(filename), module2).replace(/\\/g, '/');
+      const moduleFilename1 = path
+        .join(path.dirname(filename), module1)
+        .replace(/\\/g, '/');
+      const moduleFilename2 = path
+        .join(path.dirname(filename), module2)
+        .replace(/\\/g, '/');
 
       const output = `
         import { source } from '@handbook/source';
@@ -322,7 +332,9 @@ describe('@handbook/babel-plugin', () => {
         ns.source(() => import('${module}'));
       `;
 
-      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
+      const moduleFilename = path
+        .join(path.dirname(filename), module)
+        .replace(/\\/g, '/');
 
       const output = `
         import * as ns from '@handbook/source';
@@ -354,7 +366,9 @@ describe('@handbook/babel-plugin', () => {
         ns.source(() => import('${module}'));
       `;
 
-      const moduleFilename = path.join(path.dirname(filename), module).replace(/\\/g, '/');
+      const moduleFilename = path
+        .join(path.dirname(filename), module)
+        .replace(/\\/g, '/');
 
       const output = `
         import ns from '@handbook/source';

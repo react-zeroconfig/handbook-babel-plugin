@@ -22,7 +22,10 @@ export interface SamplingParams<S extends string> {
  *
  * @return Map<sample name, source code>
  */
-export function sampling<S extends string>({ source, samples }: SamplingParams<S>): Map<S, string> {
+export function sampling<S extends string>({
+  source,
+  samples,
+}: SamplingParams<S>): Map<S, string> {
   const program = createSourceProgram(source);
   const sourceFile = program.getSourceFile(dummyFilename)!;
 
@@ -39,7 +42,8 @@ export function sampling<S extends string>({ source, samples }: SamplingParams<S
 
     if (samples.length > 0 && samples.indexOf(name as S) === -1) continue;
 
-    const node: ts.Declaration | undefined = valueDeclaration || declarations[0];
+    const node: ts.Declaration | undefined =
+      valueDeclaration || declarations[0];
 
     if (node) {
       const next: ts.Node = removeBodyStatements(findExportNode(node));

@@ -241,7 +241,10 @@ describe('@handbook/typescript-source-sampler', () => {
  *
  * @return Map<sample name, source code>
  */
-export function sampling<S extends string>({ source, samples }: SamplingParams<S>): Map<S, string> {}
+export function sampling<S extends string>({
+  source,
+  samples,
+}: SamplingParams<S>): Map<S, string> {}
 
 export interface SamplingParams<S extends string> {
   /** typescript source code */

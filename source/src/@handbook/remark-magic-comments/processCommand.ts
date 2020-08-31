@@ -8,7 +8,8 @@ import path from 'path';
 import { IndexNode, isIndexNode, isSourceNode, SourceNode } from './nodes';
 
 async function indexToNodes(node: IndexNode, dirname: string): Promise<Node[]> {
-  if (!Array.isArray(node.filePatterns) || node.filePatterns.length < 1) return [];
+  if (!Array.isArray(node.filePatterns) || node.filePatterns.length < 1)
+    return [];
 
   const files: string[] = await Promise.all(
     node.filePatterns.map((pattern) =>
@@ -24,7 +25,9 @@ async function indexToNodes(node: IndexNode, dirname: string): Promise<Node[]> {
       spread: false,
       checked: null,
       children: files.map((file) => {
-        const relpath: string = path.relative(dirname, file).replace(/\\/g, '/');
+        const relpath: string = path
+          .relative(dirname, file)
+          .replace(/\\/g, '/');
         const title: string = relpath.replace(/^(src\/)/, '');
         return {
           type: 'paragraph',
@@ -49,8 +52,12 @@ async function indexToNodes(node: IndexNode, dirname: string): Promise<Node[]> {
 
 const urlPattern: RegExp = /^(http:|https:)/;
 
-async function sourceToNodes(node: SourceNode, dirname: string): Promise<Node[]> {
-  if (!Array.isArray(node.filePatterns) || node.filePatterns.length < 1) return [];
+async function sourceToNodes(
+  node: SourceNode,
+  dirname: string,
+): Promise<Node[]> {
+  if (!Array.isArray(node.filePatterns) || node.filePatterns.length < 1)
+    return [];
 
   const files: string[] = await Promise.all(
     node.filePatterns.map((pattern) => {
@@ -81,7 +88,11 @@ async function sourceToNodes(node: SourceNode, dirname: string): Promise<Node[]>
       title = relpath.replace(/^(src\/)/, '');
     }
 
-    if (/\.(js|jsx|ts|tsx)$/.test(file) && Array.isArray(node.pick) && node.pick.length > 0) {
+    if (
+      /\.(js|jsx|ts|tsx)$/.test(file) &&
+      Array.isArray(node.pick) &&
+      node.pick.length > 0
+    ) {
       const samples = sampling({ samples: node.pick, source });
       source = Array.from(samples.values()).join('\n\n');
     }
@@ -115,7 +126,10 @@ async function sourceToNodes(node: SourceNode, dirname: string): Promise<Node[]>
   return nodes;
 }
 
-export async function processCommand(root: RootNode, dirname: string): Promise<RootNode> {
+export async function processCommand(
+  root: RootNode,
+  dirname: string,
+): Promise<RootNode> {
   const children: Node[] = [];
 
   for (const node of root.children) {
