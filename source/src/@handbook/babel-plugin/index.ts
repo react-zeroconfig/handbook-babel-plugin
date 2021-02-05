@@ -1,5 +1,4 @@
-import { NodePath, Visitor } from '@babel/traverse';
-import types from '@babel/types';
+import { NodePath, PluginObj, types } from '@babel/core';
 import fs from 'fs';
 import nodePath from 'path';
 
@@ -9,18 +8,6 @@ const SOURCE = 'source';
 
 interface Babel {
   types: typeof types;
-}
-
-interface BabelPlugin {
-  visitor: Visitor<{
-    opts?: {
-      target?: string;
-      runtime?: string;
-    };
-    file: {
-      path: NodePath;
-    };
-  }>;
 }
 
 interface BabelOptions {
@@ -136,7 +123,7 @@ export function transformSourceCallExpression(
 
   if (!absoulteFileLocation) return;
 
-  const targetExtensions: string[] = pluginOptions.targetExtensions ?? [
+  const targetExtensions: string[] = pluginOptions?.targetExtensions ?? [
     '.tsx',
     '.jsx',
     '.js',
@@ -189,11 +176,15 @@ export function transformSourceCallExpression(
 export default function (
   { types: t }: Babel,
   pluginOptions: PluginOptions,
-): BabelPlugin {
+): PluginObj {
   let babelOptions: BabelOptions | null = null;
   const localNames: Map<typeof NAMESPACE | typeof SOURCE, string> = new Map();
 
   return {
+    manipulateOptions(opts: BabelOptions) {
+      babelOptions = opts;
+    },
+
     visitor: {
       Program(path: NodePath<types.Program>) {
         babelOptions = path.hub.file.opts;
@@ -214,7 +205,10 @@ export default function (
           }
           // import { source } from '@handbook/source'
           // import { source as another } from '@handbook/source'
-          else if (t.isImportSpecifier(specifier)) {
+          else if (
+            t.isImportSpecifier(specifier) &&
+            'name' in specifier.imported
+          ) {
             switch (specifier.imported.name) {
               case SOURCE:
                 localNames.set(specifier.imported.name, specifier.local.name);

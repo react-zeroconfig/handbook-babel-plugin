@@ -39,7 +39,9 @@ export function run() {
 
   const params = {
     cwd,
-    filePatterns,
+    filePatterns: filePatterns.filter(
+      (filePattern): filePattern is string => typeof filePattern === 'string',
+    ),
     gitAdd: gitAdd === true,
   };
 

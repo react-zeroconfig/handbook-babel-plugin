@@ -30,16 +30,23 @@ async function indexToNodes(node: IndexNode, dirname: string): Promise<Node[]> {
           .replace(/\\/g, '/');
         const title: string = relpath.replace(/^(src\/)/, '');
         return {
-          type: 'paragraph',
+          type: 'listItem',
+          spread: false,
+          checked: null,
           children: [
             {
-              type: 'link',
-              title: null,
-              url: relpath,
+              type: 'paragraph',
               children: [
                 {
-                  type: 'text',
-                  value: title,
+                  type: 'link',
+                  title: null,
+                  url: relpath,
+                  children: [
+                    {
+                      type: 'text',
+                      value: title,
+                    },
+                  ],
                 },
               ],
             },
