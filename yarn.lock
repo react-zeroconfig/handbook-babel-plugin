@@ -1103,6 +1103,33 @@
   dependencies:
     tslib "^2.0.1"
 
+"@handbook/babel-plugin@*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@handbook/babel-plugin/-/babel-plugin-1.1.0.tgz#964b0367b23e186adb3795a3184389744951e80c"
+  integrity sha512-fQPdLjD/7+ssOmvnXJaJE1FmusW2ZKFy237Ta6DlMBTh/WgWwlQbJeUWw4ldt9FFdeTFtHDPgRLezdNUCRMJ+A==
+  dependencies:
+    "@babel/core" "^7.12.13"
+
+"@handbook/code-block@*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@handbook/code-block/-/code-block-1.1.0.tgz#cde1accb92b0578905d1e6db9e3e843b9c9a941b"
+  integrity sha512-pPD6iyorbtUj1xGaenssAklcw6GF4U3PJhe+1cLh9cHNbpZ4MQotSS+jW0uCCEUjHpLK9sAvZnhFiaGwPGLNxw==
+  dependencies:
+    prism-react-renderer "^1.1.1"
+    react "^17.0.1"
+
+"@handbook/source@*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@handbook/source/-/source-1.1.0.tgz#6cdc2590745d9cd389688e2edae7f914b99186cf"
+  integrity sha512-cSEfxQAhKnayUzzpAmXpKLj2VlOwLb+FUz7bYle9AGKlT6S7zguWcEEIjb/hhGWmnpDQ7v3lZklAQnm3SkojWQ==
+
+"@handbook/typescript-source-sampler@*":
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/@handbook/typescript-source-sampler/-/typescript-source-sampler-1.1.0.tgz#0c1b110e415b144d124704f61643b1bcac7ff883"
+  integrity sha512-RwjnsOYjj11aLW98rlmBh/uVhsKhdwU0/0TPvpdsrag8+BOs75Ew1pPm6UGVCfEX06XxtyxG7l6jYLCNfm3c6Q==
+  dependencies:
+    typescript "^4.1.3"
+
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"
   resolved "https://registry.npmjs.org/@istanbuljs/load-nyc-config/-/load-nyc-config-1.1.0.tgz#fd3db1d59ecf7cf121e80650bb86712f9b55eced"
@@ -4072,9 +4099,9 @@ decimal.js@^10.2.0:
   integrity sha512-vDPw+rDgn3bZe1+F/pyEwb1oMG2XTlRVgAa6B4KccTEpYgF8w6eQllVbQcfIJnZyvzFtFpxnpGtx8dd7DJp/Rw==
 
 decode-uri-component@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.npmjs.org/decode-uri-component/-/decode-uri-component-0.2.0.tgz#eb3913333458775cb84cd1a1fae062106bb87545"
-  integrity sha1-6zkTMzRYd1y4TNGh+uBiEGu4dUU=
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/decode-uri-component/-/decode-uri-component-0.2.2.tgz#e69dbe25d37941171dd540e024c444cd5188e1e9"
+  integrity sha512-FqUYQ+8o158GyGTrMFJms9qh3CqTKvAqgqsTnkLI8sKu0028orqBhxNMFkFen0zGyg6epACD32pjVk58ngIErQ==
 
 decompress-response@^3.3.0:
   version "3.3.0"
